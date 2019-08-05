@@ -3,13 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import 'babel-polyfill'
+import install from 'utils/install'
 import axios from 'axios'
 import router from './router'
+Vue.use(install)
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
 
+import './assets/css/reset.css'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
