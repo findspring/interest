@@ -3,7 +3,7 @@
 body,ol,ul,li,dl,dd,p,h1,h2,h3,h4,h5,form,input,button,textarea,tr,th,td,div{margin:0;padding:0;box-sizing:border-box;}
 body{
   font:12px/1.5 arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
-  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;
   color:#333;height:100%;}
 button,input{*overflow:visible;line-height:normal;}
 button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0;}
@@ -22,6 +22,7 @@ input[type="search"]::-webkit-search-decoration,input[type="search"]::-webkit-se
 textarea{overflow:auto;vertical-align:top;outline:none;font-family:Arial,\5fae\8f6f\96c5\9ed1,\5B8B\4F53;}
 em,i{font-style:normal}
 table{border-collapse:collapse;border-spacing:0;}
+a{text-decoration:none;color:#333;}
 .clearfix{zoom:1;}
 .clearfix:after{
   content:"";
@@ -51,4 +52,20 @@ table{border-collapse:collapse;border-spacing:0;}
 }
 .inline-block{
   display: inline-block;
+}
+.el-main{
+  padding: 20px 0!important;
+}
+.common-width{
+  width: 1000px;
+  margin:0 auto;
+}
+.bd-none{
+  border:none!important;
+}
+.bg-gray{
+  background: #eee;
+}
+.bg-white{
+  background: #fff;
 }
