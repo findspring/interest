@@ -84,10 +84,12 @@
           <el-row :gutter="10">
             <el-col :span="6">
               <div class="grid-content bg-white">
+              	<img :src="loanImg01" alt="" width="100%">
               </div>
             </el-col>
             <el-col :span="12">
               <div class="grid-content bg-white bd-none">
+              	<img :src="loanImg02" alt="" width="100%">
               </div>
             </el-col>
             <el-col :span="6">
@@ -144,7 +146,10 @@
 export default {
   name: 'index',
   data() {
-    return {};
+    return {
+    	loanImg01:require('../../assets/imgs/loan01.jpg'),
+    	loanImg02:require('../../assets/imgs/loan02.jpg'),
+    };
   },
   components: {
     // vHeader

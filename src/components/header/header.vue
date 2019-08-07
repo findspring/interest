@@ -17,34 +17,48 @@
             <div class="nav-title clearfix">
               <ul>
                 <li><span>客服联系方式：10100360</span></li>
-                <li class="cursor">登录/注册</li>
+                <li class="cursor" @click="goPath('login')">登录/注册</li>
               </ul>
             </div>
             <!-- nav -->
             <el-menu :default-active="activeIndex" class="el-menu-demo nav" mode="horizontal" @select="handleSelect">
-              <el-menu-item index="1">处理中心</el-menu-item>
-              <el-submenu index="2">
-                <template slot="title">我的工作台</template>
-                <el-menu-item index="2-1">选项1</el-menu-item>
-                <el-menu-item index="2-2">选项2</el-menu-item>
-                <el-menu-item index="2-3">选项3</el-menu-item>
-              </el-submenu>
+              <el-menu-item index="1" @click="goPath('index')">处理中心</el-menu-item>
+              <el-menu-item index="2" @click="goPath('login')">我的工作台</el-menu-item>
               <el-menu-item index="3">消息中心</el-menu-item>
               <el-menu-item index="4">订单管理</el-menu-item>
+              <el-menu-item index="5">消息中心</el-menu-item>
+              <el-menu-item index="6">订单管理</el-menu-item>
             </el-menu>
           </div>
         </div>
       </el-header>
       <el-main>
         <div id="main">
-          <router-view />
+          <keep-alive>
+            <router-view ></router-view>
+          </keep-alive>
         </div>
       </el-main>
       <el-footer class="bg-gray">
       	<div class="footer common-width">
-      		<p>融360贷款 - 深圳小额贷款平台 版权所有 | 营业执照</p>
-      		<p>违法和不良信息举报邮箱：tousu@rong360.com    举报电话：13521618857Copyright © 2019 Rong360.com Inc. All Rights Reserved. 网络经营许可证 京ICP备12000680号-1  京公网安备 11010802020662号</p>
-      		<p></p>
+      		<div class="footer-links">
+      			<ul>
+      				<li>
+      					<a href="javascript:;">公司简介</a>
+      				</li>
+      				<li>
+      					<a href="javascript:;">联系我们</a>
+      				</li>
+      				<li>
+      					<a href="javascript:;">公司动态</a>
+      				</li>
+      			</ul>
+      		</div>
+      		<div class="footer-msg">
+      			<p>融360贷款 - 深圳小额贷款平台 版权所有 | 营业执照</p>
+	      		<p>违法和不良信息举报邮箱：tousu@rong360.com      京公网安备 11010802020662号</p>
+	      		<p></p>
+      		</div>	      		
       	</div>
       </el-footer>
     </el-container>
@@ -83,9 +97,22 @@ export default {
       //   _this.LocationCity = '定位失败, 请点击重试';
       //   this.success = false;
       // }, { provider: 'baidu' });
-    }
+    },
+    goPath(pathName){
+    	if(pathName == 'login'){
+    		this.activeIndex = '';
+				this.$router.push({name:'login'})
+    	}else if(pathName == 'index'){
+				this.$router.push({name:'index'})
+				this.activeIndex = '1';
+    	}
+			
+    },
   },
   mounted() {
+  	//获取地址栏中的路由，设置elementui中的导航栏选中状态
+    // this.activeIndex = window.location.pathname;
+  	// alert(window.location.pathname)
     this.getLocation();
   }
 };
