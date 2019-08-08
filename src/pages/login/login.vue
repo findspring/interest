@@ -1,26 +1,29 @@
 <template>
   <div id="login">
     <div class="common-width">
-      <h2>注册登录</h2>
       <!-- <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 		    <el-tab-pane label="登录" name="first">登录</el-tab-pane>
 		    <el-tab-pane label="注册" name="second">注册</el-tab-pane>
 		  </el-tabs> -->
       <div class="login">
-        <el-form :model="ruleForm" :rules="rules" label-position="left" ref="ruleForm" label-width="70px" class="demo-ruleForm">
-          <el-form-item label="账号：" prop="username">
-            <el-input v-model="ruleForm.username" autocomplete="on"></el-input>
+      	<div class="login-title flex bd-gray">
+      		<h4>登录</h4>
+      		<p>没有账号？<a href="javascript:;" style="color: #4adc19;">立即注册</a></p>
+      	</div>
+        <el-form :model="ruleForm" :rules="rules" label-position="left" ref="ruleForm" label-width="0" class="login-form">
+          <el-form-item label="" prop="username">
+            <el-input v-model="ruleForm.username" autocomplete="on" clearable placeholder="请输入手机号"></el-input>
           </el-form-item>
-          <el-form-item label="密码：" prop="password">
-            <el-input type="password" v-model="ruleForm.password" autocomplete="on"></el-input>
+          <el-form-item label="" prop="password">
+            <el-input type="password" v-model="ruleForm.password" show-password autocomplete="on" placeholder="请输入登录密码"></el-input>
           </el-form-item>
           <div class="box clearfix">
-            <span class="fl" @click="clearCookie" style="cursor: pointer;color: #f19149;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
-            <div class="fr">
+            <span class="fr" @click="clearCookie" style="cursor: pointer;color: #4adc19;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
+            <!-- <div class="fr">
               <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
-            </div>
+            </div> -->
           </div>
-          <el-button type="primary" @click="submitForm('ruleForm')" style="width:60%;margin:20px 20% 0 20%;">登录</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')" style="width:100%;margin:30px 0;">登录</el-button>
         </el-form>
       </div>
     </div>
@@ -40,7 +43,7 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: '请输入账号', trigger: 'blur' },
+          { required: true, message: '请输入手机号', trigger: 'blur' },
           { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
         ],
         password: [
@@ -115,10 +118,25 @@ export default {
 
 </script>
 <style lang="css" scoped>
-.login {
-  min-width: 350px;
-  width: 25%;
-  margin: auto;
+#login{
+	height: 650px;
 }
-
+.login {
+	border:1px solid #e4e4e4;
+  width: 400px;
+  height: 450px;
+  margin: 15px auto;
+  border-radius: 4px;
+}
+.login .login-title{
+	padding: 0 25px;
+	line-height: 56px;
+}
+.login .login-title h4{
+	font-size: 20px;
+	font-weight: 400;
+}
+.login-form{
+	padding: 30px 25px;
+}
 </style>

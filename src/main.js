@@ -6,6 +6,7 @@ import 'babel-polyfill'
 import install from 'utils/install'
 import axios from 'axios'
 import router from './router'
+import store from './store'
 Vue.use(install)
 
 import ElementUI from 'element-ui'
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 new Vue({
 	el: '#app',
 	router,
+	store,
 	components: {
 		App
 	},

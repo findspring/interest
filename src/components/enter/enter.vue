@@ -1,7 +1,7 @@
 <template>
-  <div class="header clearfix">
+  <div class="clearfix">
     <el-container>
-      <el-header>
+      <el-header class="header-wraper">
         <div id="header" class="clearfix">
           <!-- logo -->
           <div class="logo fl">
@@ -39,9 +39,9 @@
           </keep-alive>
         </div>
       </el-main>
-      <el-footer class="bg-gray">
+      <el-footer class="bg-gray" height="230px">
       	<div class="footer common-width">
-      		<div class="footer-links">
+      		<div class="footer-links clearfix">
       			<ul>
       				<li>
       					<a href="javascript:;">公司简介</a>
@@ -52,13 +52,24 @@
       				<li>
       					<a href="javascript:;">公司动态</a>
       				</li>
+              <li>
+                <a href="javascript:;">联系我们</a>
+              </li>
+              <li>
+                <a href="javascript:;">公司动态</a>
+              </li>
       			</ul>
       		</div>
       		<div class="footer-msg">
       			<p>融360贷款 - 深圳小额贷款平台 版权所有 | 营业执照</p>
 	      		<p>违法和不良信息举报邮箱：tousu@rong360.com      京公网安备 11010802020662号</p>
 	      		<p></p>
-      		</div>	      		
+      		</div>
+          <div class="footer-imgs flex">
+            <div v-for="(item,index) in footerImgs" :key="index">
+              <a href="javascript:;"><img :src="item" alt=""></a>
+            </div>            
+          </div>	      		
       	</div>
       </el-footer>
     </el-container>
@@ -69,6 +80,13 @@ import BMap from 'BMap'
 export default {
   data() {
     return {
+      footerImgs:[
+        require('../../assets/imgs/ba.png'),
+        require('../../assets/imgs/cx.png'),
+        require('../../assets/imgs/kx.png'),
+        require('../../assets/imgs/vs.png'),
+        require('../../assets/imgs/xy.png'),
+      ],
       logoUrl: require('../../assets/imgs/logo.png'),
       activeIndex: '1',
       LocationCity: '定位中',
@@ -119,6 +137,13 @@ export default {
 
 </script>
 <style lang="css" scoped>
+.header-wraper{
+	border-bottom: 1px solid #e4e4e4;
+	height: 80px!important;
+}
+.header-wraper .el-menu.el-menu--horizontal{
+	border:none!important;
+}
 #header {
   width: 1000px;
   margin: 0 auto;
@@ -153,11 +178,39 @@ export default {
 }
 
 .nav {
-  padding-top: 20px;
+  padding-top: 19px;
 }
 
 #main {
   width: 100%;
 }
-
+.footer{
+  padding: 20px 0 0 0;
+}
+.footer-links{
+  width: 70%;
+  margin:15px 15%;
+}
+.footer-links ul li{
+  height: 20px;
+  width: 20%;
+  float: left;
+  text-align: center;
+  border-right:1px solid #e4e4e4;
+}
+.footer-links ul li:last-child{
+  border:none;
+}
+.footer-links ul li a{
+  font-size: 16px;
+  line-height: 20px;
+}
+.footer-msg{
+  text-align: center;
+  line-height: 30px;
+}
+.footer-imgs{
+  width: 100%;
+  padding-top: 20px;
+}
 </style>

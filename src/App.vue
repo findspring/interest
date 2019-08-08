@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    <v-enter></v-enter>
   </div>
 </template>
 
 <script>
-import vHeader from "components/header/header";
+import vEnter from "components/enter/enter";
 export default {
   name: 'App',
   components:{
-    vHeader,
+    vEnter,
   },
 }
 </script>

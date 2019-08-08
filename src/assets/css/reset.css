@@ -53,11 +53,16 @@ a{text-decoration:none;color:#333;}
 .inline-block{
   display: inline-block;
 }
+.flex{
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+}
 .overflow-h{
   overflow: hidden;
 }
 .el-main{
-  padding: 20px 0!important;
+  padding: 0!important;
 }
 .common-width{
   width: 1000px;
@@ -66,9 +71,18 @@ a{text-decoration:none;color:#333;}
 .bd-none{
   border:none!important;
 }
+.bd-gray{
+  border-bottom: 1px solid #e4e4e4;
+}
 .bg-gray{
   background: #eee;
 }
 .bg-white{
   background: #fff;
 }
+.login .el-form-item__label:before{
+  content:''!important;
+}
+/*.login .el-form-item{
+  margin-bottom: 28px!important;
+}*/
