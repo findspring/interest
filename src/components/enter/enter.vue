@@ -185,6 +185,7 @@ export default {
   width: 100%;
 }
 .footer{
+  font-size: 14px;
   padding: 20px 0 0 0;
 }
 .footer-links{
@@ -206,6 +207,7 @@ export default {
   line-height: 20px;
 }
 .footer-msg{
+  color: #999;
   text-align: center;
   line-height: 30px;
 }

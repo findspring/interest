@@ -1,25 +1,29 @@
 <template>
-  <div id="login">
+  <div id="register">
     <div class="common-width">
+      <!-- <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+		    <el-tab-pane label="登录" name="first">登录</el-tab-pane>
+		    <el-tab-pane label="注册" name="second">注册</el-tab-pane>
+		  </el-tabs> -->
       <div class="login">
       	<div class="login-title flex bd-gray">
-      		<h4>登录</h4>
-      		<p>没有账号？<a href="javascript:;" style="color: #4adc19;" @click="goRegister()">立即注册</a></p>
+      		<h4>注册</h4>
+      		<!-- <p>没有账号？<a href="javascript:;" style="color: #4adc19;">立即注册</a></p> -->
       	</div>
         <el-form :model="ruleForm" :rules="rules" label-position="left" ref="ruleForm" label-width="0" class="login-form">
           <el-form-item label="" prop="username">
             <el-input v-model="ruleForm.username" autocomplete="on" clearable placeholder="请输入手机号"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input type="password" v-model="ruleForm.password" show-password autocomplete="on" placeholder="请输入登录密码"></el-input>
+            <el-input type="password" v-model="ruleForm.password" autocomplete="on" placeholder="请输入登录密码"></el-input>
           </el-form-item>
           <div class="box clearfix">
-            <span class="fr" @click="clearCookie" style="cursor: pointer;color: #4adc19;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
+            <span class="fr" @click="goLogin()" style="cursor: pointer;color: #4adc19;font-size: 0.75rem;margin-left: 5px;">直接登录</span>
             <!-- <div class="fr">
               <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
             </div> -->
           </div>
-          <el-button type="primary" @click="submitForm('ruleForm')" style="width:100%;margin:30px 0;">登录</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')" style="width:100%;margin:30px 0;">立即注册</el-button>
         </el-form>
       </div>
     </div>
@@ -28,7 +32,7 @@
 <script>
 export default {
 
-  name: 'login',
+  name: 'register',
 
   data() {
     return {
@@ -54,8 +58,8 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    goRegister(){
-			this.$router.push({name:"register"});
+    goLogin(){
+			this.$router.push({name:"login"});
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -117,7 +121,7 @@ export default {
 
 </script>
 <style lang="css" scoped>
-#login{
+#register{
 	height: 650px;
 }
 .login {

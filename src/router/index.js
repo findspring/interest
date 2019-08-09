@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+const register = r => require.ensure([], () => r(require('pages/register/register')), 'register');
 const login = r => require.ensure([], () => r(require('pages/login/login')), 'login');
 const index = r => require.ensure([], () => r(require('pages/index/index')), 'index');
 // const visitors = r => require.ensure([],() => r(require('pages/visitors/visitors')),'visitors');
@@ -23,6 +24,15 @@ export default new Router({
 			keepAlive: false,
 		},
 		component: index
+	}, {
+		path: "/register",
+		name: 'register',
+		meta: {
+			title: '注册',
+			flag: 'register',
+			keepAlive: true,
+		},
+		component: register
 	}, {
 		path: "/login",
 		name: 'login',
