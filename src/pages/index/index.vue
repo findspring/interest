@@ -3,8 +3,9 @@
     <!-- <v-header></v-header> -->
     <div class="block">
       <el-carousel height="350px">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <h3 class="small">{{ item }}</h3>
+        <el-carousel-item v-for="(item,index) in indexArr" :key="index">
+          <img v-bind:src="item">
+          <!-- <h3 class="small">{{ item }}</h3> -->
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -14,18 +15,18 @@
         <div class="credit-main">
           <el-row :gutter="10">
             <el-col :span="6">
-              <div class="grid-content bg-white">
+              <div class="grid-content bg-white bank-list">
                 <div class="title">
                   <span>热门发卡银行</span>
                   <a href="javascript:;">•••</a>
                 </div>
                 <ul>
-                  <li>
-                    <div class="bank-item">
-                      <img src="" alt="">
-                      <p>中信银行</p>
-                      <b>335</b>
-                      <span>款信用卡</span>
+                  <li v-for="(item,index) in bankList" :key="index">
+                    <div class="bank-item cursor clearfix">
+                      <img :src="'http://www.fanrenli.com'+item.bank_logo_small" alt="" class="fl">
+                      <p class="fl">{{item.bank_name}}</p>
+                      <b class="fr">{{item.creditcard_nums}}
+                      <span>款信用卡</span></b>
                     </div>
                   </li>
                 </ul>
@@ -38,26 +39,13 @@
                 </div>
                 <div class="credit-info">
                   <el-row :gutter="20">
-                    <el-col :span="8">
-                      <div class="">
-                        <img src="" alt="">
-                        <p></p>
+                    <el-col :span="8" v-for="(val,index) in creditList" :key="index" style="margin-bottom:15px;">
+                      <div class="cursor">
+                        <img :src="'http://www.fanrenli.com'+val.card_img" alt="">
+                        <p>{{val.card_name}}</p>
                       </div>
                     </el-col>
-                    <el-col :span="8">
-                      <div class="">222</div>
-                    </el-col>
-                    <el-col :span="8">
-                      <div class="">333</div>
-                    </el-col>
                   </el-row>
-                </div>
-                <div class="credit-news">
-                  <ul>
-                    <li>
-                      <a href="javascript:;">• 【包商】包商银行 精英计划</a>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </el-col>
@@ -68,8 +56,8 @@
                 </div>
                 <div class="hots">
                   <ul>
-                    <li>
-                      <a href="javascript:;">• 申请信用卡总被拒怎么办？银</a>
+                    <li v-for="(val,index) in articleList" :key="index" class="line-ellipsis01">
+                      <a href="javascript:;">• {{val.post_title}}</a>
                     </li>
                   </ul>
                 </div>
@@ -83,12 +71,12 @@
         <div class="loan-main">
           <el-row :gutter="10">
             <el-col :span="6">
-              <div class="grid-content bg-white">
+              <div class="grid-content bg-white cursor">
               	<img :src="loanImg01" alt="" width="100%">
               </div>
             </el-col>
             <el-col :span="12">
-              <div class="grid-content bg-white bd-none">
+              <div class="grid-content bg-white bd-none cursor">
               	<img :src="loanImg02" alt="" width="100%">
               </div>
             </el-col>
@@ -99,8 +87,8 @@
                 </div>
                 <div class="hots">
                   <ul>
-                    <li>
-                      <a href="javascript:;">• 网贷50万，逾期8个月也不</a>
+                    <li v-for="(val,index) in loanList" :key="index" class="line-ellipsis01">
+                      <a href="javascript:;">• {{val.post_title}}</a>
                     </li>
                   </ul>
                 </div>
@@ -147,9 +135,49 @@ export default {
   name: 'index',
   data() {
     return {
-    	loanImg01:require('../../assets/imgs/loan01.jpg'),
+      indexArr:[
+        require('../../assets/imgs/index1.jpeg'),
+        require('../../assets/imgs/index2.jpeg'),
+      ],
+    	loanImg01:require('../../assets/imgs/loan01.png'),
     	loanImg02:require('../../assets/imgs/loan02.jpg'),
+      bankList:[],
+      creditList:[],
+      articleList:[],
+      loanList:[],
     };
+  },
+  mounted(){
+    this.getCreditData();
+    this.getLoanData();
+  },
+  methods:{
+    getCreditData(){
+      this.$http({
+        method: "post",
+        url: "/portal/index/index_credit",
+        data: this.$qs.stringify({
+        })
+      }).then((res) => {
+        let creditDatas = res.data.data;
+        this.bankList = creditDatas.bank_list;
+        this.creditList = creditDatas.credit_list;
+        this.articleList = creditDatas.credit_articles;
+        // console.log(res.data.data);
+      }).catch((err) => {
+      });
+    },
+    getLoanData(){
+      this.$http({
+        method: "post",
+        url: "/portal/index/index_loan",
+        data: this.$qs.stringify({
+        })
+      }).then((res) => {
+        this.loanList = res.data.data;
+      }).catch((err) => {
+      });
+    },
   },
   components: {
     // vHeader
@@ -196,6 +224,46 @@ export default {
   border-bottom: 1px #f0f0f0 solid;
 }
 
+.bank-list ul{
+  padding: 0 15px;
+}
+
+.bank-list ul li{
+  line-height: 36px;
+  font-size: 14px;
+}
+.bank-list ul li img{
+  margin: 9px 8px 0 0;
+}
+
+.bank-list ul li p{
+  width: 85px;
+}
+.bank-list ul li b{
+  margin:0 5px 0 10px;
+}
+.bank-list ul li span{
+  font-weight: 400;
+  color: #999;
+}
+
+.credit-info{
+  padding: 15px;
+  line-height: 30px;
+  font-size: 14px;
+  text-align: center;
+}
+.credit-info img{
+  width: 140px;
+  height: 80px;
+}
+.hots{
+  padding: 8px 15px;
+  line-height: 30px;
+}
+.hots ul li{
+  width: 200px;
+}
 /*.el-row {
   margin-bottom: 20px;
 
@@ -206,7 +274,7 @@ export default {
 
 .grid-content {
   border-top: 3px #48cfad solid;
-  min-height: 236px;
+  min-height: 327px;
 }
 
 .loan .grid-content {
@@ -218,10 +286,10 @@ export default {
   background-color: #f9fafc;
 }
 
-.bank-item {
-  display: flex;
+.bank-item img{
+  width: 18px;
+  height: 18px;
 }
-
 .cooperate-main {
   display: flex;
   justify-content: space-between;

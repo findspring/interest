@@ -165,6 +165,7 @@ export default {
 }
 
 .nav-title {
+  font-size: 12px;
   position: absolute;
   right: 0;
   top: 0;

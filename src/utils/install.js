@@ -14,8 +14,8 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use((res) => {
 	const _this = new Vue();
 	// 根据返回的code值做不同处理（和后台约定）
-	switch (res.data.errCode) {
-		case '0':
+	switch (res.data.code) {
+		case 1:
 			return res
 		case '8002':
 			location.href = res.data.errMsg;
