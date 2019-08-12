@@ -22,12 +22,12 @@
             </div>
             <!-- nav -->
             <el-menu :default-active="activeIndex" class="el-menu-demo nav" mode="horizontal" @select="handleSelect">
-              <el-menu-item index="1" @click="goPath('index')">处理中心</el-menu-item>
-              <el-menu-item index="2" @click="goPath('login')">我的工作台</el-menu-item>
-              <el-menu-item index="3">消息中心</el-menu-item>
-              <el-menu-item index="4">订单管理</el-menu-item>
-              <el-menu-item index="5">消息中心</el-menu-item>
-              <el-menu-item index="6">订单管理</el-menu-item>
+              <el-menu-item index="index" @click="goPath('index','index')">首页</el-menu-item>
+              <el-menu-item index="creditCard" @click="goPath('creditCard','creditCard')">信用卡</el-menu-item>
+              <el-menu-item index="loan" @click="goPath('loan','loan')">贷款</el-menu-item>
+              <el-menu-item index="pos" @click="goPath('pos','pos')">POS机推广</el-menu-item>
+              <el-menu-item index="noCardPay" @click="goPath('noCardPay','noCardPay')">无卡支付APP推广</el-menu-item>
+              <!-- <el-menu-item index="6">订单管理</el-menu-item> -->
             </el-menu>
           </div>
         </div>
@@ -44,13 +44,13 @@
       		<div class="footer-links clearfix">
       			<ul>
       				<li>
-      					<a href="javascript:;">公司简介</a>
+      					<a href="javascript:;" @click="goPath('about','','intro')">公司简介</a>
       				</li>
       				<li>
-      					<a href="javascript:;">联系我们</a>
+      					<a href="javascript:;" @click="goPath('about','','contact')">联系我们</a>
       				</li>
       				<li>
-      					<a href="javascript:;">公司动态</a>
+      					<a href="javascript:;" @click="goPath('about','','trends')">公司动态</a>
       				</li>
               <li>
                 <a href="javascript:;">联系我们</a>
@@ -88,13 +88,13 @@ export default {
         require('../../assets/imgs/xy.png'),
       ],
       logoUrl: require('../../assets/imgs/logo.png'),
-      activeIndex: '1',
+      activeIndex: 'index',
       LocationCity: '定位中',
     };
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     getLocation() {
       var geolocation = new BMap.Geolocation()
@@ -116,21 +116,20 @@ export default {
       //   this.success = false;
       // }, { provider: 'baidu' });
     },
-    goPath(pathName){
-    	if(pathName == 'login'){
-    		this.activeIndex = '';
-				this.$router.push({name:'login'})
-    	}else if(pathName == 'index'){
-				this.$router.push({name:'index'})
-				this.activeIndex = '1';
-    	}
+    goPath(pathName,indexNum,aboutName){
+      this.activeIndex = indexNum;
+    	if(pathName == 'about'){
+        this.$router.push({name:'about',params:{activeName:aboutName}})
+      }else{
+        this.$router.push({name:pathName})
+      }
 			
     },
   },
   mounted() {
   	//获取地址栏中的路由，设置elementui中的导航栏选中状态
-    // this.activeIndex = window.location.pathname;
-  	// alert(window.location.pathname)
+    this.activeIndex = window.location.pathname.substr(1);
+  	console.log(window.location.pathname)
     this.getLocation();
   }
 };

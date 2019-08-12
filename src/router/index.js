@@ -3,6 +3,11 @@ import Router from 'vue-router'
 const register = r => require.ensure([], () => r(require('pages/register/register')), 'register');
 const login = r => require.ensure([], () => r(require('pages/login/login')), 'login');
 const index = r => require.ensure([], () => r(require('pages/index/index')), 'index');
+const about = r => require.ensure([], () => r(require('pages/about/about')), 'about');
+const noCardPay = r => require.ensure([], () => r(require('pages/noCardPay/noCardPay')), 'noCardPay');
+const pos = r => require.ensure([], () => r(require('pages/pos/pos')), 'pos');
+const creditCard = r => require.ensure([], () => r(require('pages/creditCard/creditCard')), 'creditCard');
+const loan = r => require.ensure([], () => r(require('pages/loan/loan')), 'loan');
 // const visitors = r => require.ensure([],() => r(require('pages/visitors/visitors')),'visitors');
 
 
@@ -42,5 +47,50 @@ export default new Router({
 			keepAlive: true,
 		},
 		component: login
+	}, {
+		path: "/about",
+		name: 'about',
+		meta: {
+			title: '关于',
+			flag: 'about',
+			keepAlive: true,
+		},
+		component: about
+	}, {
+		path: "/noCardPay",
+		name: 'noCardPay',
+		meta: {
+			title: '无卡支付',
+			flag: 'noCardPay',
+			keepAlive: true,
+		},
+		component: noCardPay
+	}, {
+		path: "/pos",
+		name: 'pos',
+		meta: {
+			title: 'POS机',
+			flag: 'pos',
+			keepAlive: true,
+		},
+		component: pos
+	}, {
+		path: "/loan",
+		name: 'loan',
+		meta: {
+			title: '贷款',
+			flag: 'loan',
+			keepAlive: true,
+		},
+		component: loan
+	}, {
+		path: "/creditCard",
+		name: 'creditCard',
+		meta: {
+			title: '信用卡',
+			flag: 'creditCard',
+			keepAlive: true,
+		},
+		component: creditCard
 	}]
 })

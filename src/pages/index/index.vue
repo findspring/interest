@@ -186,22 +186,6 @@ export default {
 
 </script>
 <style lang="css" scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 1;
-  line-height: 350px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
-
 .index-main {
   padding-bottom: 20px;
 }

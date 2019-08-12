@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div class="common-width">
+    <div class="common-width clearfix">
       <div class="login">
       	<div class="login-title flex bd-gray">
       		<h4>登录</h4>
@@ -14,7 +14,7 @@
             <el-input type="password" v-model="ruleForm.password" show-password autocomplete="on" placeholder="请输入登录密码"></el-input>
           </el-form-item>
           <div class="box clearfix">
-            <span class="fr" @click="clearCookie" style="cursor: pointer;color: #4adc19;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
+            <span class="fr" @click="clearCookie" style="cursor: pointer;color: #48cfad ;">忘记密码？</span>
             <!-- <div class="fr">
               <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
             </div> -->
@@ -118,9 +118,13 @@ export default {
 </script>
 <style lang="css" scoped>
 #login{
+  width: 100%;
+  padding-top: 80px;
+  background:url('../../assets/imgs/loginbg.jpg') no-repeat center top;
 	height: 650px;
 }
 .login {
+  background: #fff;
 	border:1px solid #e4e4e4;
   width: 400px;
   height: 450px;
