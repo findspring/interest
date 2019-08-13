@@ -8,7 +8,9 @@ const noCardPay = r => require.ensure([], () => r(require('pages/noCardPay/noCar
 const pos = r => require.ensure([], () => r(require('pages/pos/pos')), 'pos');
 const creditCard = r => require.ensure([], () => r(require('pages/creditCard/creditCard')), 'creditCard');
 const loan = r => require.ensure([], () => r(require('pages/loan/loan')), 'loan');
-// const visitors = r => require.ensure([],() => r(require('pages/visitors/visitors')),'visitors');
+const personal = r => require.ensure([], () => r(require('pages/personal/personal')), 'personal');
+const creditInfo = r => require.ensure([], () => r(require('pages/creditInfo/creditInfo')), 'creditInfo');
+const newsInfo = r => require.ensure([], () => r(require('pages/newsInfo/newsInfo')), 'newsInfo');
 
 
 Vue.use(Router)
@@ -92,5 +94,32 @@ export default new Router({
 			keepAlive: true,
 		},
 		component: creditCard
+	}, {
+		path: "/personal",
+		name: 'personal',
+		meta: {
+			title: '个人中心',
+			flag: 'personal',
+			keepAlive: true,
+		},
+		component: personal
+	}, {
+		path: "/creditInfo",
+		name: 'creditInfo',
+		meta: {
+			title: '信用卡详情',
+			flag: 'creditInfo',
+			keepAlive: true,
+		},
+		component: creditInfo
+	}, {
+		path: "/newsInfo",
+		name: 'newsInfo',
+		meta: {
+			title: '资讯详情',
+			flag: 'newsInfo',
+			keepAlive: true,
+		},
+		component: newsInfo
 	}]
 })
