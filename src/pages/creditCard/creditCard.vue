@@ -1,43 +1,116 @@
 <template>
 	<div>
-		<div class="common-width">
+		<div class="common-width credit_wrapper">			
+			<div class="search flex">
+				<el-input v-model="searchInfo" clearable size="small" placeholder="请输入信用卡名称"></el-input>
+				<el-button style="margin-left:10px;" type="primary" size="small" @click="onSubmit">查询</el-button>
+			</div>
 			<el-tabs v-model="activeName" @tab-click="handleClick">
 		    <el-tab-pane label="选卡中心" name="first">
 		    	<div class="card-center">
 		    		<!-- filter -->
 		    		<div class="card-filter">
-		    			<div class="filter-list clearfix" :class="bankStatus ? 'filter-list-more' : ''" ref="bank">
+		    			<div  v-for='(val,index) in category' :key="index">
+		    				<div class="filter-list clearfix" :class="{'filter-list-more':bankStatus}" v-if="items.name == '银行'">
+			    				<p class="title">{{val.name}}</p>
+			    				<a href="javascript:;" class="all choosed" @click="filterItemAll(index)">不限</a>
+			    				<ul>
+			    					<li v-for="(item,m) in bankList" :key="m">
+			    						<a href="javascript:;" :class="{'choosed':item.active}" @click="filterCard(index,m)">
+			    							<i :class="'bank-logo'+item.bank_id"></i>
+			    							<span>{{item.bank_name}}</span>
+			    						</a>
+			    					</li>
+			    				</ul>	
+			    				<div class="showBtn cursor" @click="showTog()">{{showStatus}}</div>  				
+			    			</div>
+			    			<div class="filter-list clearfix" v-else>
+			    				<p class="title">{{val.name}}</p>
+			    				<a href="javascript:;" class="all choosed" @click="filterItemAll(index)">不限</a>
+			    				<ul>
+			    					<li v-for="(item,n) in useList" :key="n">
+			    						<a href="javascript:;" :class="{'choosed':item.active}" @click="filterCard(index,n)">
+			    							<span>{{item.use_name}}</span>
+			    						</a>
+			    					</li>
+			    				</ul>
+			    			</div>
+		    			</div>
+		    			<div class="filter-list clearfix" :class="{'filter-list-more':bankStatus}" ref="bank">
 		    				<p class="title">银行</p>
-		    				<a href="javascript:;" class="all choosed">不限</a>
+		    				<a href="javascript:;" class="all choosed" @click="filterCard()">不限</a>
 		    				<ul>
 		    					<li v-for="(item,index) in bankList" :key="index">
-		    						<a href="javascript:;" class="">
+		    						<a href="javascript:;" class="" @click="filterCard()">
 		    							<i :class="'bank-logo'+item.bank_id"></i>
 		    							<span>{{item.bank_name}}</span>
 		    						</a>
 		    					</li>
 		    				</ul>	
-		    				<a href="javascript:;" ref="more" @click="showTog()">{{showStatus}}</a>	    				
+		    				<div class="showBtn cursor" @click="showTog()">{{showStatus}}</div>   				
 		    			</div>
 		    			<div class="filter-list clearfix">
-		    				<p class="title">银行</p>
-		    				<a href="javascript:;" class="all">不限</a>
+		    				<p class="title">用途</p>
+		    				<a href="javascript:;" class="all choosed">不限</a>
 		    				<ul>
-		    					<li>
-		    						<a href="javascript:;" >
-		    							<i></i>
-		    							<span>中信银行</span>
+		    					<li v-for="(item,index) in useList" :key="index">
+		    						<a href="javascript:;" class="">
+		    							<span>{{item.use_name}}</span>
+		    						</a>
+		    					</li>
+		    				</ul>
+		    			</div>
+		    			<div class="filter-list clearfix">
+		    				<p class="title">等级</p>
+		    				<a href="javascript:;" class="all choosed">不限</a>
+		    				<ul>
+		    					<li v-for="(item,index) in levelList" :key="index">
+		    						<a href="javascript:;" class="">
+		    							<span>{{item.level_name}}</span>
+		    						</a>
+		    					</li>
+		    				</ul>
+		    			</div>
+		    			<div class="filter-list clearfix">
+		    				<p class="title">年费</p>
+		    				<a href="javascript:;" class="all choosed">不限</a>
+		    				<ul>
+		    					<li v-for="(item,index) in annualfeeList" :key="index">
+		    						<a href="javascript:;" class="">
+		    							<span>{{item.annualfee_name}}</span>
+		    						</a>
+		    					</li>
+		    				</ul>
+		    			</div>
+		    			<div class="filter-list clearfix">
+		    				<p class="title">币种</p>
+		    				<a href="javascript:;" class="all choosed">不限</a>
+		    				<ul>
+		    					<li v-for="(item,index) in currencyList" :key="index">
+		    						<a href="javascript:;" class="">
+		    							<span>{{item.currency_name}}</span>
+		    						</a>
+		    					</li>
+		    				</ul>
+		    			</div>
+		    			<div class="filter-list clearfix">
+		    				<p class="title">组织</p>
+		    				<a href="javascript:;" class="all choosed">不限</a>
+		    				<ul>
+		    					<li v-for="(item,index) in orgList" :key="index">
+		    						<a href="javascript:;" class="">
+		    							<span>{{item.org_name}}</span>
 		    						</a>
 		    					</li>
 		    				</ul>
 		    			</div>
 		    		</div>
 		    		<!-- result -->
-		    		<div class="car-result">
-		    			<div><p>共找到313款信用卡</p></div>
+		    		<div class="card-result">
+		    			<div class="card-total"><p>共找到<b>333</b>款信用卡</p></div>
 		    			<div class="result-item">
 		    				<img src="" alt="">
-		    				<div>
+		    				<div class="card-msg">
 		    					<p></p>
 		    					<p></p>
 		    				</div>
@@ -55,7 +128,7 @@
 		    						<p><span>年费政策：</span>终身免年费</p>
 		    					</li>
 		    				</ul>
-		    				<div>
+		    				<div class="result-btn">
 		    					<a href="javascript:;">查看</a>
 		    					<p><b>人</b>申请</p>
 		    				</div>
@@ -82,14 +155,55 @@ export default {
     return {
 			activeName:'first',
 			bankList:[],
+			useList:[],
+			annualfeeList:[],
+			currencyList:[],
+			levelList:[],
+			orgList:[],
 			showStatus:'更多',
 			bankStatus:true,
+			searchInfo:'',
+			category:[],
+			condition:[],
+			count:0,
     };
   },
   mounted(){
 		this.getFilterData();
+		this.getResultData();
   },
   methods:{
+  	onSubmit(){
+
+  	},
+  	filterCard(index,key){
+			var item=this.category[index].items;
+			item.filter((v,i)=>{
+				if(i==key){
+					v.active=true;			
+					this.condition.filter((v2,i)=>{
+						if(v.name==v2.name){
+							this.condition.splice(i,1);
+							count--;
+						}
+					});					
+					this.$set(this.condition,count++,v);
+				}
+			});
+  	},
+  	filterItemAll(index){
+			var item=this.category[index].items;
+			item.filter((v,key)=>{
+				v.active=true;
+				this.condition.filter((v2,i)=>{
+					if(v.name==v2.name){
+						this.condition.splice(i,1);
+						count--;
+					}
+				});					
+				this.$set(this.condition,count++,v);
+			});		
+  	},
   	showTog(){
   		if(this.showStatus == '更多'){
 				this.showStatus = '收起';
@@ -109,21 +223,25 @@ export default {
         data: params
       }).then((res) => {
       	let result = res.data.data;
-				this.bankList = result.bank_list
+				this.bankList = result.bank_list;
+				this.useList = result.use;
+				this.annualfeeList = result.annualfee;
+				this.currencyList = result.currency;
+				this.levelList = result.level;
+				this.orgList = result.org;
         console.log(res.data.data);
       }).catch((err) => {
       });
     },
     getResultData(){
   		let params={};
-  		params.card_use = 6;
-  		params.card_org = 1;
+  		params.id = '5d4d96382e3f40917e927201';
       this.$http({
         method: "post",
-        url: "/portal/credit/findcard",
-        data: params
+        url: "/portal/credit/carddetail",
+        data: this.$qs.stringify(params)
       }).then((res) => {
-        console.log(res.data.data);
+        console.log(222,res.data.data);
       }).catch((err) => {
       });
     },
@@ -135,6 +253,19 @@ export default {
 </script>
 
 <style lang="css" scoped>
+	.credit_wrapper{
+		position: relative;
+	}
+	.search{
+		position:absolute;
+		right: 0;
+		top: 4px;
+		width:200px;
+		z-index: 100;
+	}
+	.search input{
+		margin-right: 10px;
+	}
 	.filter-list{
 		padding-top: 10px;
 		border-bottom: 1px solid #e4e4e4;
@@ -164,6 +295,66 @@ export default {
 	}
 	.filter-list ul li a{
 		
+	}
+	.showBtn{
+		color:#0099ff;
+		position: absolute;
+		right: 5px;
+		top:8px;
+		font-size: 16px;
+	}
+	.filter-list-more{
+		height: 42px;
+		overflow: hidden;
+	}
+	.card-total{
+		width:100%;
+		background: #f6f6f6;
+		height: 48px;
+		line-height: 48px;
+		padding-left: 30px;
+	}
+	.card-total b{
+		color: #ff6000;
+		margin:0 3px;
+	}
+	.result-item{
+		padding: 20px 0;
+    height: 106px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: solid 1px #eeeeee;
+	}
+	.result-item img{
+		width: 170px;
+    height: 106px;
+		float:left;
+	}
+	.result-item ul{
+		width: 365px;
+		float:left;
+	}
+	.card-msg{
+		width: 303px;
+		float:left;
+	}
+	.result-btn{
+		width: 150px;
+		float:left;
+		text-align: center;
+	}
+	.result-btn a{
+		margin:0 auto;
+		display: block;
+		width: 100px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 5px;
+    background: #fe8007;
+    font-size: 16px;
+    color: #ffffff;
+    margin-top: 20px;
 	}
 	/*banklist all*/
 	.bank-logo1 {
