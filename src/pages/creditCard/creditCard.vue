@@ -11,14 +11,14 @@
 		    		<!-- filter -->
 		    		<div class="card-filter">
 		    			<div  v-for='(val,index) in category' :key="index">
-		    				<div class="filter-list clearfix" :class="{'filter-list-more':bankStatus}" v-if="items.name == '银行'">
+		    				<div class="filter-list clearfix" :class="{'filter-list-more':bankStatus}" v-if="val.name == '银行'">
 			    				<p class="title">{{val.name}}</p>
-			    				<a href="javascript:;" class="all choosed" @click="filterItemAll(index)">不限</a>
+			    				<a href="javascript:;" class="all" :class="{'choosed':val.item_active}" @click="filterItemAll(val.item_id,index)">不限</a>
 			    				<ul>
-			    					<li v-for="(item,m) in bankList" :key="m">
-			    						<a href="javascript:;" :class="{'choosed':item.active}" @click="filterCard(index,m)">
+			    					<li v-for="(item,m) in val.items" :key="m">
+			    						<a href="javascript:;" :class="{'choosed':item.active}" @click="filterCard(val.item_id,index,m)">
 			    							<i :class="'bank-logo'+item.bank_id"></i>
-			    							<span>{{item.bank_name}}</span>
+			    							<span>{{item[val.item_name]}}</span>
 			    						</a>
 			    					</li>
 			    				</ul>	
@@ -26,84 +26,16 @@
 			    			</div>
 			    			<div class="filter-list clearfix" v-else>
 			    				<p class="title">{{val.name}}</p>
-			    				<a href="javascript:;" class="all choosed" @click="filterItemAll(index)">不限</a>
+			    				<a href="javascript:;" class="all" :class="{'choosed':val.item_active}" @click="filterItemAll(val.item_id,index)">不限</a>
 			    				<ul>
-			    					<li v-for="(item,n) in useList" :key="n">
-			    						<a href="javascript:;" :class="{'choosed':item.active}" @click="filterCard(index,n)">
-			    							<span>{{item.use_name}}</span>
+			    					<li v-for="(item,n) in val.items" :key="n">
+			    						<a href="javascript:;" :class="{'choosed':item.active}" @click="filterCard(val.item_id,index,n)">
+			    							<span>{{item[val.item_name]}}</span>
 			    						</a>
 			    					</li>
 			    				</ul>
 			    			</div>
-		    			</div>
-		    			<div class="filter-list clearfix" :class="{'filter-list-more':bankStatus}" ref="bank">
-		    				<p class="title">银行</p>
-		    				<a href="javascript:;" class="all choosed" @click="filterCard()">不限</a>
-		    				<ul>
-		    					<li v-for="(item,index) in bankList" :key="index">
-		    						<a href="javascript:;" class="" @click="filterCard()">
-		    							<i :class="'bank-logo'+item.bank_id"></i>
-		    							<span>{{item.bank_name}}</span>
-		    						</a>
-		    					</li>
-		    				</ul>	
-		    				<div class="showBtn cursor" @click="showTog()">{{showStatus}}</div>   				
-		    			</div>
-		    			<div class="filter-list clearfix">
-		    				<p class="title">用途</p>
-		    				<a href="javascript:;" class="all choosed">不限</a>
-		    				<ul>
-		    					<li v-for="(item,index) in useList" :key="index">
-		    						<a href="javascript:;" class="">
-		    							<span>{{item.use_name}}</span>
-		    						</a>
-		    					</li>
-		    				</ul>
-		    			</div>
-		    			<div class="filter-list clearfix">
-		    				<p class="title">等级</p>
-		    				<a href="javascript:;" class="all choosed">不限</a>
-		    				<ul>
-		    					<li v-for="(item,index) in levelList" :key="index">
-		    						<a href="javascript:;" class="">
-		    							<span>{{item.level_name}}</span>
-		    						</a>
-		    					</li>
-		    				</ul>
-		    			</div>
-		    			<div class="filter-list clearfix">
-		    				<p class="title">年费</p>
-		    				<a href="javascript:;" class="all choosed">不限</a>
-		    				<ul>
-		    					<li v-for="(item,index) in annualfeeList" :key="index">
-		    						<a href="javascript:;" class="">
-		    							<span>{{item.annualfee_name}}</span>
-		    						</a>
-		    					</li>
-		    				</ul>
-		    			</div>
-		    			<div class="filter-list clearfix">
-		    				<p class="title">币种</p>
-		    				<a href="javascript:;" class="all choosed">不限</a>
-		    				<ul>
-		    					<li v-for="(item,index) in currencyList" :key="index">
-		    						<a href="javascript:;" class="">
-		    							<span>{{item.currency_name}}</span>
-		    						</a>
-		    					</li>
-		    				</ul>
-		    			</div>
-		    			<div class="filter-list clearfix">
-		    				<p class="title">组织</p>
-		    				<a href="javascript:;" class="all choosed">不限</a>
-		    				<ul>
-		    					<li v-for="(item,index) in orgList" :key="index">
-		    						<a href="javascript:;" class="">
-		    							<span>{{item.org_name}}</span>
-		    						</a>
-		    					</li>
-		    				</ul>
-		    			</div>
+		    			</div>		    			
 		    		</div>
 		    		<!-- result -->
 		    		<div class="card-result">
@@ -176,33 +108,27 @@ export default {
   	onSubmit(){
 
   	},
-  	filterCard(index,key){
+  	filterCard(itemName,index,key){
 			var item=this.category[index].items;
+			this.category[index].item_active = false;
 			item.filter((v,i)=>{
 				if(i==key){
-					v.active=true;			
-					this.condition.filter((v2,i)=>{
-						if(v.name==v2.name){
-							this.condition.splice(i,1);
-							count--;
-						}
-					});					
-					this.$set(this.condition,count++,v);
+					v.active=true;					
+					this.$set(this.condition,itemName,v[this.category[index].item_id]);
+					console.log('test',this.condition);
+				}else{
+					v.active=false;
 				}
 			});
   	},
-  	filterItemAll(index){
+  	filterItemAll(itemName,index){
 			var item=this.category[index].items;
+			this.category[index].item_active = true;
 			item.filter((v,key)=>{
-				v.active=true;
-				this.condition.filter((v2,i)=>{
-					if(v.name==v2.name){
-						this.condition.splice(i,1);
-						count--;
-					}
-				});					
-				this.$set(this.condition,count++,v);
+				v.active=false;					
+				this.$set(this.condition,itemName,0);
 			});		
+			console.log('222',this.condition);
   	},
   	showTog(){
   		if(this.showStatus == '更多'){
@@ -223,6 +149,7 @@ export default {
         data: params
       }).then((res) => {
       	let result = res.data.data;
+      	this.category = result.category;
 				this.bankList = result.bank_list;
 				this.useList = result.use;
 				this.annualfeeList = result.annualfee;
@@ -260,7 +187,7 @@ export default {
 		position:absolute;
 		right: 0;
 		top: 4px;
-		width:200px;
+		width:260px;
 		z-index: 100;
 	}
 	.search input{

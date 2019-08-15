@@ -103,3 +103,12 @@ a{text-decoration:none;color:#333;}
 .about-main .el-tabs__item:hover{
   color:#48cfad ;
 }
+
+.credit-info-main .el-tabs__item{
+  font-size: 16px!important;
+  padding: 0 25px;
+  letter-spacing: 6px;
+  height: 48px;
+  line-height: 48px;
+
+}
