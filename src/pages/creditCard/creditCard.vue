@@ -40,11 +40,11 @@
 		    		<!-- result -->
 		    		<div class="card-result">
 		    			<div class="card-total"><p>共找到<b>333</b>款信用卡</p></div>
-		    			<div class="result-item">
-		    				<img src="" alt="">
+		    			<div class="result-item clearfix" v-for="(item,index) in resultArr" :key="index">
+		    				<img :src="'http://www.fanrenli.com' + item.card_img" alt="">
 		    				<div class="card-msg">
-		    					<p></p>
-		    					<p></p>
+		    					<p>{{item.card_name}}</p>
+		    					<p class="color-yellow">{{item.recommed_mark}}</p>
 		    				</div>
 		    				<ul>
 		    					<li>
@@ -57,20 +57,58 @@
 		    						<p><span>取现费用：</span>10元</p>
 		    					</li>
 		    					<li>
-		    						<p><span>年费政策：</span>终身免年费</p>
+		    						<p><span>年费政策：</span><div class="line-ellipsis01 card-dscription">{{item.card_annualfee_mark}}</div></p>
 		    					</li>
 		    				</ul>
 		    				<div class="result-btn">
 		    					<a href="javascript:;">查看</a>
-		    					<p><b>人</b>申请</p>
+		    					<p><b class="color-yellow">{{item.applied_nums}}人</b>申请</p>
 		    				</div>
+		    			</div>
+		    			<div class="change-page">
+		    				<el-pagination
+		    					class="fr"
+		    					background
+						      @current-change="handleCurrentChange"
+						      :current-page.sync="currentPage"
+						      :page-size="10"
+						      layout="prev, pager, next, jumper"
+						      :total="100">
+						    </el-pagination>
 		    			</div>
 		    		</div>
 		    	</div>
 		    </el-tab-pane>
 		    <el-tab-pane label="信用卡优惠" name="second">
 		    	<div class="card-discount">
-		    		
+		    		<!-- banner -->
+		    		<div class="block">
+				      <el-carousel height="350px">
+				        <el-carousel-item v-for="(item,index) in indexArr" :key="index">
+				          <img v-bind:src="item">
+				        </el-carousel-item>
+				      </el-carousel>
+				    </div>
+				    <!-- newsList -->
+				    <div class="news-list clearfix">
+				    	<!-- left -->
+				    	<div class="news-left fl">
+				    		<h4>大家都在看的优惠</h4>
+					    	<ul class="list-info">
+					    		<li class="list-item" v-for="(item,index) in articleList" :key="index">
+					    			<a href="javascript:;">
+					    				<img :src="'http://www.fanrenli.com' + item.thumbnail" alt="">
+						    			<p class="p1">{{item.post_title}}</p>
+						    			<p class="p2 line-ellipsis02">{{item.post_excerpt}}</p>
+					    			</a>						    			
+					    		</li>
+					    	</ul>
+				    	</div>
+				    	<!-- right -->
+					    <div class="news-right fr">
+					    	<a href="javascript:;"><img :src="newsImg01" alt=""></a>
+					    </div>	
+				    </div>
 		    	</div>
 		    </el-tab-pane>
 		  </el-tabs>
@@ -98,15 +136,27 @@ export default {
 			category:[],
 			condition:[],
 			count:0,
+			resultArr:[],
+			currentPage:1,
+			indexArr:[
+        require('../../assets/imgs/index1.jpeg'),
+        require('../../assets/imgs/index2.jpeg'),
+      ],
+      articleList:[],
+      newsImg01:require('../../assets/imgs/loan01.png'),
     };
   },
   mounted(){
 		this.getFilterData();
 		this.getResultData();
-  },
+		this.getDiscount();
+  },  
   methods:{
   	onSubmit(){
 
+  	},
+  	handleCurrentChange(val){
+			
   	},
   	filterCard(itemName,index,key){
 			var item=this.category[index].items;
@@ -156,19 +206,31 @@ export default {
 				this.currencyList = result.currency;
 				this.levelList = result.level;
 				this.orgList = result.org;
-        console.log(res.data.data);
+      }).catch((err) => {
+      });
+    },
+    getDiscount(){
+  		let params={};
+  		// params.id = '5d4d96382e3f40917e927201';
+      this.$http({
+        method: "post",
+        url: "/portal/credit/youhui",
+        // data: this.$qs.stringify(params)
+      }).then((res) => {
+      	this.articleList = res.data.data.youhui_articles
       }).catch((err) => {
       });
     },
     getResultData(){
   		let params={};
-  		params.id = '5d4d96382e3f40917e927201';
+  		// params.id = '5d4d96382e3f40917e927201';
       this.$http({
         method: "post",
-        url: "/portal/credit/carddetail",
-        data: this.$qs.stringify(params)
+        url: "/portal/credit/findcard",
+        // data: this.$qs.stringify(params)
       }).then((res) => {
-        console.log(222,res.data.data);
+      	this.resultArr = res.data.data;
+        // console.log(222,res.data.data);
       }).catch((err) => {
       });
     },
@@ -180,6 +242,58 @@ export default {
 </script>
 
 <style lang="css" scoped>
+	.news-list{
+		padding: 20px 0 30px 0;
+	}
+	.news-left{
+		width: 750px;
+	}
+	.news-left h4{
+		font-size: 16px;
+		line-height: 48px;
+		border-bottom: 1px solid #e4e4e4;
+	}
+	.news-left ul{
+		width: 100%;
+	}
+	.news-left ul li{
+		width: 22%;
+		margin-right: 4%;
+		margin-top: 10px;
+		float: left;
+		text-align:justify;
+	}
+	.news-left ul li:nth-child(4n){
+		margin-right: 0
+	}
+	.news-left ul li p.p1{
+		margin: 6px 0 5px;
+    line-height: 20px;
+	}
+	.news-left ul li img{
+		width: 100%;
+    height: 120px;
+	}
+	.news-left ul li p.p2{
+		height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color:#888;
+    font-size: 12px;
+	}
+	.news-right{
+		width: 220px;
+		padding-top: 20px;
+	}
+	.change-page{
+		padding: 20px;
+	}
+	.card-result{
+		padding-bottom: 40px;
+	}
+	.color-yellow{
+		color:#ff6000;
+	}
 	.credit_wrapper{
 		position: relative;
 	}
@@ -251,17 +365,32 @@ export default {
     overflow: hidden;
     position: relative;
     border-bottom: solid 1px #eeeeee;
+    min-height: 150px;
 	}
 	.result-item img{
 		width: 170px;
     height: 106px;
 		float:left;
+		margin-right: 10px;
+	}
+	.card-dscription{
+		float: left;
+		display: inline-block;
+		width: 280px;
 	}
 	.result-item ul{
 		width: 365px;
 		float:left;
 	}
+	.result-item ul li{
+		line-height: 28px;
+	}
+	.result-item ul li span{
+		float: left;
+		color:#999;
+	}
 	.card-msg{
+		line-height: 30px;
 		width: 303px;
 		float:left;
 	}
@@ -281,7 +410,8 @@ export default {
     background: #fe8007;
     font-size: 16px;
     color: #ffffff;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
 	}
 	/*banklist all*/
 	.bank-logo1 {

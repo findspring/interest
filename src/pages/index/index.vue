@@ -42,7 +42,7 @@
                     <el-col :span="8" v-for="(val,index) in creditList" :key="index" style="margin-bottom:15px;">
                       <div class="cursor">
                         <img :src="'http://www.fanrenli.com'+val.card_img" alt="">
-                        <p>{{val.card_name}}</p>
+                        <p class="line-ellipsis01">{{val.card_name}}</p>
                       </div>
                     </el-col>
                   </el-row>

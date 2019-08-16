@@ -1,6 +1,44 @@
 <template>
+	<div>
+		<div class="common-width">
+			<div class="block">
+	      <el-carousel height="350px">
+	        <el-carousel-item v-for="(item,index) in indexArr" :key="index">
+	          <img v-bind:src="item">
+	          <!-- <h3 class="small">{{ item }}</h3> -->
+	        </el-carousel-item>
+	      </el-carousel>
+	    </div>
+	    <!-- loan-main -->
+	    <div class="loan-main clearfix">
+	    	<div class="loan-left fl">
+	    		<div class="loan-hot">
+	    			<h4>热门贷款</h4>
+	    			<ul>
+	    				<li class="cursor flex" v-for="(item,index) in loanList" :key="index">
+	    					<img :src="'http://www.fanrenli.com' + item.loan_supplier_logo" alt="">
+								<p>{{item.loan_supplier}}</p>
+								<span>{{item.lending_time}}</span>
+								<a href="javascript:;" class="loan-btn">查看</a>
+	    				</li>
+	    			</ul>
+	    		</div>
+	    		<div class="loan-methods">
+	    			<h4>贷款攻略</h4>
+	    			<ul class="flex">
+	    				<li v-for="(item,index) in articleList" :key="index"> 
+	    					<a href="javascript:;"><span>·</span>{{item.post_title}}</a>
+	    				</li>
+	    			</ul>
+	    		</div>
+	    	</div>
+	    	<div class="loan-right fr">
+	    		<a href="javascript:;"><img :src="newsImg01" alt=""></a>
+	    	</div>
+	    </div>
+		</div>	    
+	</div>
 </template>
-
 <script>
 export default {
 
@@ -8,11 +46,96 @@ export default {
 
   data() {
     return {
-
+			indexArr:[
+        require('../../assets/imgs/index1.jpeg'),
+        require('../../assets/imgs/index2.jpeg'),
+      ],
+      loanList:[],
+      articleList:[],
+      newsImg01:require('../../assets/imgs/loan01.png'),
     };
+  },
+  mounted(){
+		this.getLoanData();
+  },
+  methods:{
+		getLoanData(){
+      this.$http({
+        method: "post",
+        url: "/portal/loan/index",
+        // data: this.$qs.stringify(params)
+      }).then((res) => {
+      	let result = res.data.data;
+				this.loanList = result.loanlist;
+				this.articleList = result.loan_articles;
+      }).catch((err) => {
+      });
+    },
   },
 };
 </script>
 
 <style lang="css" scoped>
+	.loan-main{
+		padding-bottom:30px;
+	}
+	.loan-left{
+		width: 750px;
+	}
+	.loan-hot{
+
+	}
+	.loan-left h4{
+		font-size: 18px;
+		line-height: 60px;
+		border-bottom: 1px solid #e4e4e4;
+	}
+	.loan-hot ul li{
+		align-items: center;
+		height: 80px;
+	}
+	.loan-hot ul li img{
+		margin-left: 15px;
+	}
+	.loan-hot ul li:hover{
+		background: #f8f8f8;
+	}
+	.loan-hot ul li p{
+		font-size: 16px;
+	}
+	.loan-hot ul li a{
+		margin-right: 15px;
+		width: 100px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 5px;
+    background: #fff;
+    font-size: 16px;
+    color: #4978c4;
+    border:1px solid #4978c4;
+	}
+	.loan-hot ul li a:hover{
+		background: #4978c4;
+    color: #fff;
+	}
+	.loan-methods ul{
+		flex-wrap: wrap;
+	}
+	.loan-methods ul li{
+		line-height: 35px;
+		width: 48%
+	}
+	.loan-methods ul li p span{
+		margin-right: 5px;
+	}
+	.loan-methods ul li:hover{
+		color:#4978c4;
+	}
+	.loan-right{
+		width: 220px;
+	}
+	.loan-right a img{
+		margin-top: 30px;
+	}
 </style>

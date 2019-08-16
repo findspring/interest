@@ -4,7 +4,7 @@
 
 const path = require('path')
 
-const _serverUrl = "http://www.fanrenli.com/api";
+const _serverUrl = "http://www.fanrenli.com";
 module.exports = {
   dev: {
 
@@ -13,23 +13,19 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/portal': {
-        // target:'http://'+_serverUrl+':8089/wechat',
-        target: _serverUrl + '/portal',
-        // target:'http://'+_serverUrl+':8184/wechat',
+        target: _serverUrl + '/api/portal',
         changeOrigin: true,
         pathRewrite: {
           '^/portal': '/'
         }
       },
-      // '/pub': {
-      //   // target:'http://'+_serverUrl+':8089/pub',
-      //   target: _serverUrl + '/pub',
-      //   // target:'http://'+_serverUrl+':8182/pub',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/pub': '/'
-      //   }
-      // },
+      '/user': {
+        target: _serverUrl + '/user',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/user': '/'
+        }
+      },
     },
 
     // Various Dev Server settings

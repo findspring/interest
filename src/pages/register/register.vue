@@ -14,6 +14,11 @@
           <el-form-item label="" prop="username">
             <el-input v-model="ruleForm.username" autocomplete="on" clearable placeholder="请输入手机号"></el-input>
           </el-form-item>
+          <el-form-item label="" prop="valcode">
+            <el-input class="fl code-input" v-model="ruleForm.valcode" autocomplete="on" clearable placeholder="请输入验证码"></el-input>
+            <div class="reg-code fr cursor" v-if="codeStatus"  @click="sendCode">发送验证码</div>
+            <div class="reg-code fr" v-else>{{time}}s</div> 
+          </el-form-item>
           <el-form-item label="" prop="password">
             <el-input type="password" v-model="ruleForm.password" autocomplete="on" placeholder="请输入登录密码"></el-input>
           </el-form-item>
@@ -38,14 +43,21 @@ export default {
   data() {
     return {
       activeName: 'first',
+      codeStatus:true,
+      time:60,
       ruleForm: {
         username: '',
-        password: ''
+        password: '',
+        valcode:'',
       },
       rules: {
         username: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+        ],
+        valcode: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { min: 4, max: 4, message: '4位验证码', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -56,6 +68,18 @@ export default {
     };
   },
   methods: {
+    sendCode(){
+      this.codeStatus = false;
+      let timer = setInterval(() => {
+        if (this.time > 1) {
+          this.time--;
+        }else{
+          this.codeStatus = true;
+          this.time = 60;
+          clearInterval(timer);
+        }
+      }, 1000)
+    },
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -127,6 +151,18 @@ export default {
   padding-top: 80px;
   background:url('../../assets/imgs/loginbg.jpg') no-repeat center top;
 	height: 650px;
+}
+.code-input{
+  width: 250px;
+}
+.reg-code{
+  width:86px;
+  height: 40px;
+  text-align: center;
+  color: #666;
+  background: #f8f8f8;
+  border:1px solid #e4e4e4;
+  border-radius: 4px;
 }
 .login {
   background: #fff;

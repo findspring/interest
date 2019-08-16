@@ -6,7 +6,7 @@
 		    	<div class="company-intro about-item">
 		    		<h3>公司简介</h3>
 		    		<div class="intro-main">
-		    			<p></p>
+		    			<p v-html="companyInfo"></p>
 		    			<p></p>
 		    		</div>
 		    	</div>
@@ -15,8 +15,7 @@
 					<div class="contact-us about-item">
 						<h3>联系我们</h3>
 		    		<div class="intro-main">
-		    			<p></p>
-		    			<p></p>
+		    			<p v-html="contactInfo"></p>
 		    		</div>
 					</div>
 		    </el-tab-pane>
@@ -24,8 +23,11 @@
 		    	<div class="company-trends about-item">
 		    		<h3>公司动态</h3>
 		    		<div class="intro-main">
-		    			<p></p>
-		    			<p></p>
+		    			<ul>
+		    				<li v-for="(item,index) in news" :key="index">
+		    					<p>{{item.post_title}}</p>
+		    				</li>
+		    			</ul>
 		    		</div>
 		    	</div>
 		    </el-tab-pane>
@@ -43,6 +45,10 @@ export default {
   data() {
     return {
 			activeName: 'intro',
+			companyInfo:'',
+			contactInfo:'',
+			news:[],
+
     };
   },
   watch: {
@@ -56,13 +62,46 @@ export default {
   },
   mounted(){
   	this.changeTab();
+  	this.getAboutUs();
+  	this.getNews();
+  	this.getContact();
   },
   methods:{
 		changeTab(){			
 	  	if(this.$route.params && this.$route.params.activeName){
 	  		this.activeName = this.$route.params.activeName;
 	  	}
-		}
+		},
+		getAboutUs(){
+      this.$http({
+        method: "post",
+        url: "/portal/about/index",
+      }).then((res) => {
+      	let result = res.data.data;
+      	this.companyInfo= result.company_info.post_content;
+      }).catch((err) => {
+      });
+		},
+		getNews(){
+      this.$http({
+        method: "post",
+        url: "/portal/about/news",
+      }).then((res) => {
+      	let result = res.data.data;
+      	this.news= result.news;
+      }).catch((err) => {
+      });
+		},
+		getContact(){
+      this.$http({
+        method: "post",
+        url: "/portal/about/contact",
+      }).then((res) => {
+      	let result = res.data.data;
+      	this.contactInfo= result.company_info.post_content;
+      }).catch((err) => {
+      });
+		},
   }
 };
 </script>

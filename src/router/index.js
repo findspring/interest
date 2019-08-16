@@ -11,6 +11,7 @@ const loan = r => require.ensure([], () => r(require('pages/loan/loan')), 'loan'
 const personal = r => require.ensure([], () => r(require('pages/personal/personal')), 'personal');
 const creditInfo = r => require.ensure([], () => r(require('pages/creditInfo/creditInfo')), 'creditInfo');
 const newsInfo = r => require.ensure([], () => r(require('pages/newsInfo/newsInfo')), 'newsInfo');
+const loanInfo = r => require.ensure([], () => r(require('pages/loanInfo/loanInfo')), 'loanInfo');
 
 
 Vue.use(Router)
@@ -121,5 +122,14 @@ export default new Router({
 			keepAlive: true,
 		},
 		component: newsInfo
+	}, {
+		path: "/loanInfo",
+		name: 'loanInfo',
+		meta: {
+			title: '贷款详情',
+			flag: 'loanInfo',
+			keepAlive: true,
+		},
+		component: loanInfo
 	}]
 })

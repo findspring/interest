@@ -1,6 +1,7 @@
 <template>
-  <div class="clearfix">
-    <el-container>
+  <div class="clearfix page-component__scroll">
+    <el-backtop target=".test"></el-backtop>
+    <el-container class="test">
       <el-header class="header-wraper">
         <div id="header" class="clearfix">
           <!-- logo -->
