@@ -101,15 +101,24 @@ export default {
         if (valid) {
           const self = this;
           //判断复选框是否被勾选 勾选则调用配置cookie方法
-          if (self.checked == true) {
-            //传入账号名，密码，和保存天数3个参数
-            self.setCookie(self.ruleForm.username, self.ruleForm.password, 7);
-          } else {
-            console.log("清空Cookie");
-            //清空Cookie
-            self.clearCookie();
-          }
-          alert('登录成功!');
+          let params = {};
+          params.username = this.ruleForm.username;
+          params. = this.ruleForm.valcode;
+          params.password = this.ruleForm.password;
+          this.$http({
+            method: "post",
+            url: "/user/public/register",
+            data: this.$qs.stringify({
+              params
+            })
+          }).then((res) => {
+            let creditDatas = res.data.data;
+            this.bankList = creditDatas.bank_list;
+            this.creditList = creditDatas.credit_list;
+            this.articleList = creditDatas.credit_articles;
+            // console.log(res.data.data);
+          }).catch((err) => {
+          });
           this.$router.push({ name: 'index', params: { user: self.ruleForm.username, pwd: self.ruleForm.password } });
         } else {
           console.log('error submit!!');
