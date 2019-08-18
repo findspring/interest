@@ -20,7 +20,7 @@ module.exports = {
         }
       },
       '/user': {
-        target: _serverUrl + '/user',
+        target: _serverUrl + '/api/user',
         changeOrigin: true,
         pathRewrite: {
           '^/user': '/'

@@ -12,6 +12,7 @@ const personal = r => require.ensure([], () => r(require('pages/personal/persona
 const creditInfo = r => require.ensure([], () => r(require('pages/creditInfo/creditInfo')), 'creditInfo');
 const newsInfo = r => require.ensure([], () => r(require('pages/newsInfo/newsInfo')), 'newsInfo');
 const loanInfo = r => require.ensure([], () => r(require('pages/loanInfo/loanInfo')), 'loanInfo');
+const forgetPwd = r => require.ensure([], () => r(require('pages/forgetPwd/forgetPwd')), 'forgetPwd');
 
 
 Vue.use(Router)
@@ -131,5 +132,14 @@ export default new Router({
 			keepAlive: true,
 		},
 		component: loanInfo
+	}, {
+		path: "/forgetPwd",
+		name: 'forgetPwd',
+		meta: {
+			title: '忘记密码',
+			flag: 'forgetPwd',
+			keepAlive: true,
+		},
+		component: forgetPwd
 	}]
 })

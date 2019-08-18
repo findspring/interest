@@ -7,14 +7,21 @@
       		<p>没有账号？<a href="javascript:;" style="color: #4adc19;" @click="goRegister()">立即注册</a></p>
       	</div>
         <el-form :model="ruleForm" :rules="rules" label-position="left" ref="ruleForm" label-width="0" class="login-form">
+
+          <a href="javascript:;" @click="changeLogin()" class="fr clearfix login-name">{{loginName}}</a>
           <el-form-item label="" prop="username">
             <el-input v-model="ruleForm.username" autocomplete="on" clearable placeholder="请输入手机号"></el-input>
           </el-form-item>
-          <el-form-item label="" prop="password">
+          <el-form-item label="" prop="password" v-if="loginType">
             <el-input type="password" v-model="ruleForm.password" show-password autocomplete="on" placeholder="请输入登录密码"></el-input>
           </el-form-item>
+          <el-form-item label="" prop="valcode" v-else>
+            <el-input class="fl code-input" v-model="ruleForm.valcode" autocomplete="on" clearable placeholder="请输入验证码"></el-input>
+            <div class="reg-code fr cursor" v-if="codeStatus"  @click="sendCode">发送验证码</div>
+            <div class="reg-code fr" v-else>{{time}}s</div> 
+          </el-form-item>
           <div class="box clearfix">
-            <span class="fr" @click="clearCookie" style="cursor: pointer;color: #48cfad ;">忘记密码？</span>
+            <span class="fr" @click="resetPwd()" style="cursor: pointer;color: #48cfad ;">忘记密码？</span>
             <!-- <div class="fr">
               <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
             </div> -->
@@ -33,44 +40,93 @@ export default {
   data() {
     return {
       activeName: 'first',
+      loginType:true,
+      loginName:'短信快捷登录',
+      codeStatus:true,
+      time:60,
       ruleForm: {
         username: '',
-        password: ''
+        password: '',
+        valcode:'',
       },
       rules: {
         username: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
         ],
+        valcode: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { min: 4, max: 4, message: '4位验证码', trigger: 'blur' }
+        ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
         ]
       },
-      checked: false
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    sendCode(){
+      this.$refs.ruleForm.validateField('username',(err)=>{
+        if(err == ''){
+          this.codeStatus = false;
+          let timer = setInterval(() => {
+            if (this.time > 1) {
+              this.time--;
+            }else{
+              this.codeStatus = true;
+              this.time = 60;
+              clearInterval(timer);
+            }
+          }, 1000)
+        }else{
+          this.$message({
+            message: '请先输入正确的手机号',
+            showClose: true,
+            type: 'warning'
+          });
+        }
+      })       
     },
     goRegister(){
 			this.$router.push({name:"register"});
+    },
+    changeLogin(){
+      this.$refs.ruleForm.resetFields(); 
+      if(this.loginType == true){
+        this.loginType = false;
+        this.loginName = '使用密码登录';
+      }else{
+        this.loginType = true;
+        this.loginName = '短信快捷登录';
+      }
+    },
+    resetPwd(){
+      this.$router.push({name:'forgetPwd'});
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const self = this;
           //判断复选框是否被勾选 勾选则调用配置cookie方法
-          if (self.checked == true) {
-            //传入账号名，密码，和保存天数3个参数
-            self.setCookie(self.ruleForm.username, self.ruleForm.password, 7);
-          } else {
-            console.log("清空Cookie");
-            //清空Cookie
-            self.clearCookie();
-          }
-          alert('登录成功!');
+          let params = {};
+          console.log(111,this.ruleForm.username)
+          params.username = this.ruleForm.username;
+          params.password = this.ruleForm.password;
+          this.$http({
+            method: "post",
+            url: "/user/public/login",
+            data: this.$qs.stringify({
+              params
+            })
+          }).then((res) => {
+            let creditDatas = res.data.data;
+            this.bankList = creditDatas.bank_list;
+            this.creditList = creditDatas.credit_list;
+            this.articleList = creditDatas.credit_articles;
+            // console.log(res.data.data);
+          }).catch((err) => {
+          });
           this.$router.push({ name: 'index', params: { user: self.ruleForm.username, pwd: self.ruleForm.password } });
         } else {
           console.log('error submit!!');
@@ -117,6 +173,30 @@ export default {
 
 </script>
 <style lang="css" scoped>
+.login-name{
+  position: absolute;
+  right: 25px;
+  top: 0;
+  z-index: 100;
+  margin:10px 0px 0 0;
+  line-height: 30px;
+}
+.login-name:hover{
+  color: #48cfad;
+}
+
+.code-input{
+  width: 250px;
+}
+.reg-code{
+  width:86px;
+  height: 40px;
+  text-align: center;
+  color: #666;
+  background: #f8f8f8;
+  border:1px solid #e4e4e4;
+  border-radius: 4px;
+}
 #login{
   width: 100%;
   padding-top: 80px;
@@ -140,6 +220,7 @@ export default {
 	font-weight: 400;
 }
 .login-form{
-	padding: 30px 25px;
+  position: relative;
+	padding:50px 25px 30px 25px;
 }
 </style>

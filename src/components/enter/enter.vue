@@ -130,6 +130,9 @@ export default {
   mounted() {
   	//获取地址栏中的路由，设置elementui中的导航栏选中状态
     this.activeIndex = window.location.pathname.substr(1);
+    if(this.activeIndex == ""){
+      this.activeIndex = 'index';
+    }
   	console.log(window.location.pathname)
     this.getLocation();
   }

@@ -69,16 +69,26 @@ export default {
   },
   methods: {
     sendCode(){
-      this.codeStatus = false;
-      let timer = setInterval(() => {
-        if (this.time > 1) {
-          this.time--;
+      this.$refs.ruleForm.validateField('username',(err)=>{
+        if(err == ''){
+          this.codeStatus = false;
+          let timer = setInterval(() => {
+            if (this.time > 1) {
+              this.time--;
+            }else{
+              this.codeStatus = true;
+              this.time = 60;
+              clearInterval(timer);
+            }
+          }, 1000)
         }else{
-          this.codeStatus = true;
-          this.time = 60;
-          clearInterval(timer);
+          this.$message({
+            message: '请先输入正确的手机号',
+            showClose: true,
+            type: 'warning'
+          });
         }
-      }, 1000)
+      })       
     },
     handleClick(tab, event) {
       console.log(tab, event);

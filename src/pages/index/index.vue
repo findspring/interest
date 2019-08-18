@@ -289,6 +289,13 @@ export default {
   height: 48px;
   background: url('../../assets/imgs/banks.png') no-repeat;
 }
+.cooperate-item:hover{
+  -webkit-transform: scale(1.1);
+     -moz-transform: scale(1.1);
+      -ms-transform: scale(1.1);
+       -o-transform: scale(1.1);
+          transform: scale(1.1);
+}
 
 .cooperate-item01 {
   background-position: -9px -2px;
