@@ -34,6 +34,7 @@
 	    	</div>
 	    	<div class="loan-right fr">
 	    		<a href="javascript:;"><img :src="newsImg01" alt=""></a>
+	    		<a href="javascript:;"><img :src="newsImg01" alt=""></a>
 	    	</div>
 	    </div>
 		</div>	    
@@ -120,22 +121,26 @@ export default {
     color: #fff;
 	}
 	.loan-methods ul{
+		padding-top: 10px;
 		flex-wrap: wrap;
 	}
 	.loan-methods ul li{
 		line-height: 35px;
 		width: 48%
 	}
-	.loan-methods ul li p span{
+	.loan-methods ul li a span{
 		margin-right: 5px;
 	}
 	.loan-methods ul li:hover{
 		color:#4978c4;
 	}
-	.loan-right{
+	.loan-right{		
+		margin-top: 30px;
 		width: 220px;
 	}
-	.loan-right a img{
-		margin-top: 30px;
+	.loan-right a{
+		display: block;
+		overflow: hidden;
+		margin-bottom: 15px;
 	}
 </style>

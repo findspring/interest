@@ -25,6 +25,7 @@
     	<!-- right -->
 	    <div class="news-right fr">
 	    	<a href="javascript:;"><img :src="newsImg01" alt=""></a>
+	    	<a href="javascript:;"><img :src="newsImg01" alt=""></a>
 	    </div>
     </div>
 	</div>
@@ -98,6 +99,12 @@ export default {
 		width: 100%;
     height: 120px;
 	}
+	.news-left ul li a:hover p.p2{
+		color:#4978c4;
+	}
+	.news-left ul li a:hover img{
+		transform: scale(1.05);
+	}
 	.news-left ul li p.p2{
 		height: 50px;
     overflow: hidden;
@@ -109,4 +116,10 @@ export default {
 		width: 220px;
 		padding-top: 20px;
 	}
+	.news-right a{
+		display: block;
+		overflow: hidden;
+		margin-bottom: 15px;
+	}
 </style>
+

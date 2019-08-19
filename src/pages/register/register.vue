@@ -103,7 +103,7 @@ export default {
           //判断复选框是否被勾选 勾选则调用配置cookie方法
           let params = {};
           params.username = this.ruleForm.username;
-          params. = this.ruleForm.valcode;
+          params.verification_code = this.ruleForm.valcode;
           params.password = this.ruleForm.password;
           this.$http({
             method: "post",
@@ -112,14 +112,16 @@ export default {
               params
             })
           }).then((res) => {
-            let creditDatas = res.data.data;
-            this.bankList = creditDatas.bank_list;
-            this.creditList = creditDatas.credit_list;
-            this.articleList = creditDatas.credit_articles;
-            // console.log(res.data.data);
+            // let creditDatas = res.data.data;
+            this.$router.push({ name: 'login'});
+            console.log(res.data.data);
           }).catch((err) => {
+            this.$message({
+            message: err,
+            showClose: true,
+            type: 'warning'
           });
-          this.$router.push({ name: 'index', params: { user: self.ruleForm.username, pwd: self.ruleForm.password } });
+          });
         } else {
           console.log('error submit!!');
           return false;

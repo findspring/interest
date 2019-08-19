@@ -82,18 +82,37 @@ export default {
   	submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const self = this;
-          //判断复选框是否被勾选 勾选则调用配置cookie方法
-          if (self.checked == true) {
-            //传入账号名，密码，和保存天数3个参数
-            self.setCookie(self.ruleForm.username, self.ruleForm.password, 7);
-          } else {
-            console.log("清空Cookie");
-            //清空Cookie
-            self.clearCookie();
-          }
-          alert('登录成功!');
-          this.$router.push({ name: 'index', params: { user: self.ruleForm.username, pwd: self.ruleForm.password } });
+          let params = {};
+          params.username = this.ruleForm.username;
+          params.verification_code = this.ruleForm.valcode;
+          params.password = this.ruleForm.password;
+          this.$http({
+            method: "post",
+            url: "/user/public/passwordreset",
+            data: this.$qs.stringify({
+              params
+            })
+          }).then((res) => {
+            // let creditDatas = res.data.data;
+            this.$message({
+              message: '密码重置成功,请重新登录',
+              showClose: true,
+              type: 'success'
+            });
+            this.$router.push({ name: 'login'});
+          }).catch((err) => {
+          });
+          // const self = this;
+          // //判断复选框是否被勾选 勾选则调用配置cookie方法
+          // if (self.checked == true) {
+          //   //传入账号名，密码，和保存天数3个参数
+          //   self.setCookie(self.ruleForm.username, self.ruleForm.password, 7);
+          // } else {
+          //   console.log("清空Cookie");
+          //   //清空Cookie
+          //   self.clearCookie();
+          // }
+          // alert('登录成功!');          
         } else {
           console.log('error submit!!');
           return false;

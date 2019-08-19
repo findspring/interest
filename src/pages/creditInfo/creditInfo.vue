@@ -17,15 +17,14 @@
 				</div>
 				<!-- mini -->
 				<div class="credit-info-mini flex">
-					<img src="" alt="">
+					<!-- <img src="" alt=""> -->
 					<ul class="card-feature">
-						<li>金卡</li>
-						<li>银联	</li>
-						<li>人民币	</li>
+						<li><span>等级：</span>金卡</li>
+						<li><span>币种：</span>人民币	</li>
 					</ul>
 					<ul class="card-advantage">
-						<li>年费：0元</li>
-						<li>终身免年费</li>
+						<li class="line-ellipsis01" title=""><span>年费：</span>0元</li>
+						<li><span>组织：</span>银联</li>
 					</ul>
 					<div class="apply-btn cursor apply-mini">立即申请</div>
 				</div>
@@ -73,7 +72,10 @@
 			</div>
 			<!-- right -->
 			<div class="credit-right fr">
-				<div class="credit-logo"></div>
+
+				<div class="credit-logo">
+					光大银行
+				</div>
 				<p>信用卡客服：4001-000-000</p>
 				<div class="credit-stars clearfix">
 					<span class="fl">批卡率 </span>
@@ -119,12 +121,13 @@ export default {
     };
   },
   mounted(){
-		this.getDetailData();
+  	console.log(this.$route.query.id)
+		this.getDetailData(this.$route.query.id);
   },
   methods:{
-		getDetailData(){
+		getDetailData(id){
   		let params={};
-  		params.id = '5d4d96382e3f40917e927201';
+  		params.id = id;
       this.$http({
         method: "post",
         url: "/portal/credit/carddetail",
@@ -204,7 +207,7 @@ export default {
 	}
 	.credit-info-mini{
 		width: 100%;
-		min-height: 180px;
+		min-height: 120px;
 		-ms-align-items: center;
 		align-items: center;
 		padding:20px 15px 15px 15px;
@@ -218,15 +221,22 @@ export default {
 		width: 30%;
 	}
 	.card-feature li{
-		width: 33.3%;
+		width: 100%;
 		float: left;
-		text-align: center;
+		text-align: left;
+		line-height: 30px;
+		margin-left: 30px;
 	}
 	.card-advantage{
-		
+		max-width: 200px;
 	}
 	.card-advantage li{
 		width: 100%;
+		text-align: left;
+		line-height: 30px;
+	}
+	.card-advantage li span,.card-feature li span{
+		color:#999;
 	}
 	.credit-info-main{
 		padding: 20px 0;
@@ -312,12 +322,15 @@ export default {
 	}
 	.credit-right p{
 		text-align: center;
-		line-height: 30px;
+		line-height: 20px;
+		padding-bottom: 10px;
 	}
 	.credit-logo{
-		margin:10px 0 auto;
-		width: 126px;
-    height: 40px;
+		font-size: 20px;
+		line-height: 50px;
+		font-weight: 700;
+		text-align: center;
+		width: 100%;
 	}
 	.credit-stars{
 		padding-left: 20px;

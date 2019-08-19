@@ -8,7 +8,7 @@
       	</div>
         <el-form :model="ruleForm" :rules="rules" label-position="left" ref="ruleForm" label-width="0" class="login-form">
 
-          <a href="javascript:;" @click="changeLogin()" class="fr clearfix login-name">{{loginName}}</a>
+          <!-- <a href="javascript:;" @click="changeLogin()" class="fr clearfix login-name">{{loginName}}</a> -->
           <el-form-item label="" prop="username">
             <el-input v-model="ruleForm.username" autocomplete="on" clearable placeholder="请输入手机号"></el-input>
           </el-form-item>
@@ -107,12 +107,16 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const self = this;
           //判断复选框是否被勾选 勾选则调用配置cookie方法
           let params = {};
-          console.log(111,this.ruleForm.username)
-          params.username = this.ruleForm.username;
-          params.password = this.ruleForm.password;
+          if(loginType){
+            params.username = this.ruleForm.username;
+            params.password = this.ruleForm.password;
+          }else{
+            params.username = this.ruleForm.username;
+            params.verification_code = this.ruleForm.valcode;
+          }
+            
           this.$http({
             method: "post",
             url: "/user/public/login",
@@ -120,10 +124,7 @@ export default {
               params
             })
           }).then((res) => {
-            let creditDatas = res.data.data;
-            this.bankList = creditDatas.bank_list;
-            this.creditList = creditDatas.credit_list;
-            this.articleList = creditDatas.credit_articles;
+            // let creditDatas = res.data.data;
             // console.log(res.data.data);
           }).catch((err) => {
           });

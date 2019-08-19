@@ -14,6 +14,26 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
 
 import './assets/css/reset.css'
+
+router.beforeEach((to, from, next) => {
+	// 获取authToken
+	let authToken = localStorage.getItem("authToken") || "";
+	// if (!authToken) {
+	//   authToken = obj.getQueryString("authToken")
+	//   if (authToken){
+	//     localStorage.setItem("authToken", authToken)
+	//   }
+	// }
+	//title变化
+	if (to.meta.title) {
+		document.title = to.meta.title
+	}
+	// Vue.prototype.$http.defaults.headers['common']=httpHead;
+	// Vue.prototype.$http.defaults.headers['common']['authToken']= localStorage.getItem("authToken")||"";
+	next()
+});
+
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

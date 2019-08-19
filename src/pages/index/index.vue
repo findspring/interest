@@ -148,14 +148,15 @@ export default {
     };
   },
   mounted(){
-    this.getCreditData();
-    this.getLoanData();
+    this.getIndexData();
+    // this.getCreditData();
+    // this.getLoanData();
   },
   methods:{
-    getCreditData(){
+    getIndexData(){
       this.$http({
         method: "post",
-        url: "/portal/index/index_credit",
+        url: "/portal/index/index",
         data: this.$qs.stringify({
         })
       }).then((res) => {
@@ -163,21 +164,37 @@ export default {
         this.bankList = creditDatas.bank_list;
         this.creditList = creditDatas.credit_list;
         this.articleList = creditDatas.credit_articles;
+        this.loanList = creditDatas.loan_articles
         // console.log(res.data.data);
       }).catch((err) => {
       });
     },
-    getLoanData(){
-      this.$http({
-        method: "post",
-        url: "/portal/index/index_loan",
-        data: this.$qs.stringify({
-        })
-      }).then((res) => {
-        this.loanList = res.data.data;
-      }).catch((err) => {
-      });
-    },
+    // getCreditData(){
+    //   this.$http({
+    //     method: "post",
+    //     url: "/portal/index/index_credit",
+    //     data: this.$qs.stringify({
+    //     })
+    //   }).then((res) => {
+    //     let creditDatas = res.data.data;
+    //     this.bankList = creditDatas.bank_list;
+    //     this.creditList = creditDatas.credit_list;
+    //     this.articleList = creditDatas.credit_articles;
+    //     // console.log(res.data.data);
+    //   }).catch((err) => {
+    //   });
+    // },
+    // getLoanData(){
+    //   this.$http({
+    //     method: "post",
+    //     url: "/portal/index/index_loan",
+    //     data: this.$qs.stringify({
+    //     })
+    //   }).then((res) => {
+    //     this.loanList = res.data.data;
+    //   }).catch((err) => {
+    //   });
+    // },
   },
   components: {
     // vHeader

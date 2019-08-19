@@ -61,7 +61,7 @@
 		    					</li>
 		    				</ul>
 		    				<div class="result-btn">
-		    					<a href="javascript:;">查看</a>
+		    					<a href="javascript:;" @click="goCreditInfo(item.id)">查看</a>
 		    					<p><b class="color-yellow">{{item.applied_nums}}人</b>申请</p>
 		    				</div>
 		    			</div>
@@ -107,6 +107,7 @@
 				    	<!-- right -->
 					    <div class="news-right fr">
 					    	<a href="javascript:;"><img :src="newsImg01" alt=""></a>
+					    	<a href="javascript:;"><img :src="newsImg01" alt=""></a>
 					    </div>	
 				    </div>
 		    	</div>
@@ -134,10 +135,11 @@ export default {
 			bankStatus:true,
 			searchInfo:'',
 			category:[],
-			condition:[],
+			condition:{},
 			count:0,
 			resultArr:[],
 			currentPage:1,
+			isLocked:false,
 			indexArr:[
         require('../../assets/imgs/index1.jpeg'),
         require('../../assets/imgs/index2.jpeg'),
@@ -148,17 +150,29 @@ export default {
   },
   mounted(){
 		this.getFilterData();
-		this.getResultData();
+		this.getResultData(3)
 		this.getDiscount();
   },  
   methods:{
+  	goCreditInfo(id){
+			this.$router.push({path:'creditInfo', query:{ id: id }});
+  	},
   	onSubmit(){
-
+  		if(this.locked == true){
+  			return false
+  		}
+  		this.locked = true;
+			this.activeName = 'first';
+			this.getResultData(1,this.searchInfo)
   	},
   	handleCurrentChange(val){
 			
   	},
   	filterCard(itemName,index,key){
+  		if(this.locked == true){
+  			return false
+  		}
+  		this.locked = true;
 			var item=this.category[index].items;
 			this.category[index].item_active = false;
 			item.filter((v,i)=>{
@@ -170,8 +184,13 @@ export default {
 					v.active=false;
 				}
 			});
+			this.getResultData(2,this.condition);
   	},
   	filterItemAll(itemName,index){
+  		if(this.locked == true){
+  			return false
+  		}
+  		this.locked = true;
 			var item=this.category[index].items;
 			this.category[index].item_active = true;
 			item.filter((v,key)=>{
@@ -179,6 +198,7 @@ export default {
 				this.$set(this.condition,itemName,0);
 			});		
 			console.log('222',this.condition);
+			this.getResultData(2,this.condition);
   	},
   	showTog(){
   		if(this.showStatus == '更多'){
@@ -221,16 +241,26 @@ export default {
       }).catch((err) => {
       });
     },
-    getResultData(){
+    getResultData(type,nowParam){
   		let params={};
+  		if(type == 1){
+				params.card_name = nowParam;
+  		}else if(type == 2){ 
+  			Object.keys(nowParam).forEach((item) => {
+  			  params[item] = nowParam[item];
+  			})
+  		}else{
+  			params={};
+  		}
+  		console.log(999,params);
   		// params.id = '5d4d96382e3f40917e927201';
       this.$http({
         method: "post",
         url: "/portal/credit/findcard",
-        // data: this.$qs.stringify(params)
+        data: this.$qs.stringify(params)
       }).then((res) => {
       	this.resultArr = res.data.data;
-        // console.log(222,res.data.data);
+      	this.locked = false;
       }).catch((err) => {
       });
     },
@@ -280,10 +310,21 @@ export default {
     text-overflow: ellipsis;
     color:#888;
     font-size: 12px;
+	}	
+	.news-left ul li a:hover p.p2{
+		color:#4978c4;
+	}
+	.news-left ul li a:hover img{
+		transform: scale(1.05);
 	}
 	.news-right{
 		width: 220px;
 		padding-top: 20px;
+	}
+	.news-right a{
+		display: block;
+		overflow: hidden;
+		margin-bottom: 15px;
 	}
 	.change-page{
 		padding: 20px;

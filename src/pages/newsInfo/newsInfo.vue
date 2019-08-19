@@ -11,6 +11,7 @@
 				</div>
 				<div class="newsinfo-right fr">
 					<a href="javascript:;"><img :src="newsImg01" alt=""></a>
+					<a href="javascript:;"><img :src="newsImg01" alt=""></a>
 				</div>
 			</div>
 		</div>
@@ -56,5 +57,10 @@ export default {
 	}
 	.newsinfo-right{
 		width: 220px;
+	}
+	.newsinfo-right a{
+		display: block;
+		overflow: hidden;
+		margin-bottom: 15px;
 	}
 </style>
