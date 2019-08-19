@@ -109,14 +109,13 @@ export default {
         if (valid) {
           //判断复选框是否被勾选 勾选则调用配置cookie方法
           let params = {};
-          if(loginType){
+          if(this.loginType){
             params.username = this.ruleForm.username;
             params.password = this.ruleForm.password;
           }else{
             params.username = this.ruleForm.username;
             params.verification_code = this.ruleForm.valcode;
           }
-            
           this.$http({
             method: "post",
             url: "/user/public/login",
