@@ -98,7 +98,7 @@ export default {
         url: "/portal/about/contact",
       }).then((res) => {
       	let result = res.data.data;
-      	this.contactInfo= result.company_info.post_content;
+      	this.contactInfo= result.contact.post_content;
       }).catch((err) => {
       });
 		},
@@ -122,7 +122,10 @@ export default {
 		line-height: 48px;
 		border-bottom: 2px solid #48cfad ;
 	}
+	.intro-main{
+		margin-top: 10px;
+	}
 	.about-item p{
-
+		line-height: 30px;
 	}
 </style>

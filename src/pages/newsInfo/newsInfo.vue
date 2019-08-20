@@ -3,10 +3,10 @@
 		<div class="common-width">
 			<div class="news-main clearfix">
 				<div class="newsinfo-left fl">
-					<h4>30天10万落户，深圳楼市“笑了”？</h4>
-					<div class="newsinfo-msg"><time>时间：2019-04-10 </time><small>来源：地产深度报道 作者：地产深度报道</small></div>
+					<h4>{{post_title}}</h4>
+					<div class="newsinfo-msg"><time>时间：{{create_time}} </time><small>作者：{{user_nickname}}</small></div>
 					<div class="newsinfo-content">
-						<p>豪宅秒光、中介月赚20万……已有所回暖的深圳楼市或又将再添波澜。</p>
+						<p v-html="post_content"></p>
 					</div>
 				</div>
 				<div class="newsinfo-right fr">
@@ -20,13 +20,44 @@
 
 <script>
 export default {
-
   name: 'newsInfo',
-
   data() {
     return {
 			newsImg01:require('../../assets/imgs/loan01.png'),
+			create_time:'',
+			post_content:'',
+			post_title:'',
+			user_nickName:'',
     };
+  },
+  watch: {
+    $route: {
+      handler(val) {
+        if(val.query && val.query.id){
+      		this.getDetailData(val.query.id);
+      	}
+      },
+      // deep:true,
+      immediate: true
+    },
+  },
+  mounted(){
+		this.getDetailData(this.$route.query.id);
+  },
+  methods:{
+		getDetailData(id){
+      this.$http({
+        method: "post",
+        url: "/portal/about/newsdetail?id="+id,
+      }).then((res) => {
+      	let detail = res.data.data.detail;
+				this.create_time = detail.create_time;
+				this.post_content = detail.post_content;
+				this.post_title = detail.post_title;
+				this.user_nickname = detail.user_nickname;
+      }).catch((err) => {
+      });
+    },
   },
 };
 </script>
@@ -50,6 +81,9 @@ export default {
 		font-size: 12px;
 		color:#888;
 		padding-bottom: 20px;
+	}
+	.newsinfo-msg small{
+		margin-left: 10px;
 	}
 	.newsinfo-content{
 		text-indent: 2em;

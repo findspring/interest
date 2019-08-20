@@ -15,11 +15,12 @@
 	    		<div class="loan-hot">
 	    			<h4>热门贷款</h4>
 	    			<ul>
-	    				<li class="cursor flex" v-for="(item,index) in loanList" :key="index">
-	    					<img :src="'http://www.fanrenli.com' + item.loan_supplier_logo" alt="">
+	    				<li class="flex" v-for="(item,index) in loanList" :key="index">
+	    					<!-- <img :src="'http://www.fanrenli.com' + item.loan_supplier_logo" alt=""> -->
+	    					<p style="padding-left:20px;">{{item.loan_name}}</p>
 								<p>{{item.loan_supplier}}</p>
 								<span>{{item.lending_time}}</span>
-								<a href="javascript:;" class="loan-btn">查看</a>
+								<a href="javascript:;" class="loan-btn" @click="goPath('loanInfo',item.id)">查看</a>
 	    				</li>
 	    			</ul>
 	    		</div>
@@ -27,7 +28,7 @@
 	    			<h4>贷款攻略</h4>
 	    			<ul class="flex">
 	    				<li v-for="(item,index) in articleList" :key="index"> 
-	    					<a href="javascript:;"><span>·</span>{{item.post_title}}</a>
+	    					<a href="javascript:;" @click="goPath('newsInfo',item.id)"><span>·</span>{{item.post_title}}</a>
 	    				</li>
 	    			</ul>
 	    		</div>
@@ -60,6 +61,16 @@ export default {
 		this.getLoanData();
   },
   methods:{
+  	goPath(pathName,id){
+      const {href} = this.$router.resolve({
+        path: pathName,
+        query: {
+          id: id
+        }
+      })
+      window.open(href, '_blank')
+      // this.$router.push({path:pathName, query:{ id: id }});
+    },
 		getLoanData(){
       this.$http({
         method: "post",

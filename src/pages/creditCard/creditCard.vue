@@ -39,7 +39,7 @@
 		    		</div>
 		    		<!-- result -->
 		    		<div class="card-result">
-		    			<div class="card-total"><p>共找到<b>333</b>款信用卡</p></div>
+		    			<div class="card-total"><p>共找到<b>{{totalNum}}</b>款信用卡</p></div>
 		    			<div class="result-item clearfix" v-for="(item,index) in resultArr" :key="index">
 		    				<img :src="'http://www.fanrenli.com' + item.card_img" alt="">
 		    				<div class="card-msg">
@@ -71,9 +71,9 @@
 		    					background
 						      @current-change="handleCurrentChange"
 						      :current-page.sync="currentPage"
-						      :page-size="10"
+						      :page-size="5"
 						      layout="prev, pager, next, jumper"
-						      :total="100">
+						      :total="totalNum">
 						    </el-pagination>
 		    			</div>
 		    		</div>
@@ -85,7 +85,9 @@
 		    		<div class="block">
 				      <el-carousel height="350px">
 				        <el-carousel-item v-for="(item,index) in indexArr" :key="index">
-				          <img v-bind:src="item">
+				        	<a href="javascript:;"  @click="goLink(item.url)">
+				          	<img :src="'http://www.fanrenli.com'+item.img_path">
+				          </a>
 				        </el-carousel-item>
 				      </el-carousel>
 				    </div>
@@ -95,7 +97,7 @@
 				    	<div class="news-left fl">
 				    		<h4>大家都在看的优惠</h4>
 					    	<ul class="list-info">
-					    		<li class="list-item" v-for="(item,index) in articleList" :key="index">
+					    		<li class="list-item" v-for="(item,index) in articleList" :key="index" @click="goPath('newsInfo',item.id)">
 					    			<a href="javascript:;">
 					    				<img :src="'http://www.fanrenli.com' + item.thumbnail" alt="">
 						    			<p class="p1">{{item.post_title}}</p>
@@ -137,27 +139,72 @@ export default {
 			category:[],
 			condition:{},
 			count:0,
+			totalNum:0,
 			resultArr:[],
 			currentPage:1,
-			isLocked:false,
-			indexArr:[
-        require('../../assets/imgs/index1.jpeg'),
-        require('../../assets/imgs/index2.jpeg'),
-      ],
+			locked:false,
+			indexArr:[],
       articleList:[],
       newsImg01:require('../../assets/imgs/loan01.png'),
     };
   },
+  watch: {
+    $route: {
+      handler(val) {
+      	if(val.query && val.query.id){
+      		setTimeout(() => {
+      		  this.category[0].item_active = false;
+      		  this.category[0].items.forEach((item,index) => {
+      		    if(item.bank_id == val.query.id){
+      		    	item.active = true;
+      		    }else{
+      		    	item.active = false;
+      		    }
+      		  })
+      		  this.$set(this.condition,'bank_id',+val.query.id);
+      		  console.log(888,this.condition);
+      		  this.getResultData(2,this.condition);
+      		  // this.category[0].items[val.query.id].active = true;
+      		  // this.$set(this.category[0],item_active,false);
+      		}, 300)      		
+      		// this.getDetailData(val.query.id);
+      	}        
+      },
+      // deep:true,
+      immediate: true
+    },
+  },
   mounted(){
 		this.getFilterData();
-		this.getResultData(3)
+		this.getResultData(4)
 		this.getDiscount();
   },  
   methods:{
+  	goLink(url){
+			window.open(url);
+  	},
+  	goPath(pathName,id){
+      const {href} = this.$router.resolve({
+        path: pathName,
+        query: {
+          id: id
+        }
+      })
+      window.open(href, '_blank')
+      // this.$router.push({path:pathName, query:{ id: id }});
+    },
   	goCreditInfo(id){
 			this.$router.push({path:'creditInfo', query:{ id: id }});
   	},
   	onSubmit(){
+  		if(this.searchInfo == ''){
+  			this.$message({
+          message: '请先输入要搜索信用卡的名称',
+          showClose: true,
+          type: 'warning'
+        });
+        return false;
+  		}
   		if(this.locked == true){
   			return false
   		}
@@ -166,9 +213,14 @@ export default {
 			this.getResultData(1,this.searchInfo)
   	},
   	handleCurrentChange(val){
-			
+  		console.log('test',val);
+			let getParams = JSON.parse(sessionStorage.getItem('params'));
+			let pageParams = Object.assign(getParams,{page:val})
+			console.log(111,pageParams);
+			this.getResultData(3,pageParams);
   	},
   	filterCard(itemName,index,key){
+  		this.searchInfo = '';
   		if(this.locked == true){
   			return false
   		}
@@ -187,6 +239,7 @@ export default {
 			this.getResultData(2,this.condition);
   	},
   	filterItemAll(itemName,index){
+  		this.searchInfo = '';
   		if(this.locked == true){
   			return false
   		}
@@ -237,29 +290,39 @@ export default {
         url: "/portal/credit/youhui",
         // data: this.$qs.stringify(params)
       }).then((res) => {
-      	this.articleList = res.data.data.youhui_articles
+      	this.indexArr = res.data.data.banners
+      	this.articleList = res.data.data.yh_articles;
       }).catch((err) => {
       });
     },
     getResultData(type,nowParam){
   		let params={};
   		if(type == 1){
+  			this.currentPage = 1;
 				params.card_name = nowParam;
+				params.page = 1;
   		}else if(type == 2){ 
+  			this.currentPage = 1;
   			Object.keys(nowParam).forEach((item) => {
   			  params[item] = nowParam[item];
   			})
+  			params.page = 1;
+  		}else if(type == 3){ 
+  			params = nowParam;
   		}else{
-  			params={};
+  			this.currentPage = 1;
+  			params = {};
   		}
-  		console.log(999,params);
+  		sessionStorage.setItem('params',JSON.stringify(params));
   		// params.id = '5d4d96382e3f40917e927201';
       this.$http({
         method: "post",
         url: "/portal/credit/findcard",
         data: this.$qs.stringify(params)
       }).then((res) => {
-      	this.resultArr = res.data.data;
+      	let result = res.data.data;
+      	this.resultArr = result.data;
+      	this.totalNum = result.total;
       	this.locked = false;
       }).catch((err) => {
       });

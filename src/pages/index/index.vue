@@ -22,7 +22,7 @@
                 </div>
                 <ul>
                   <li v-for="(item,index) in bankList" :key="index">
-                    <div class="bank-item cursor clearfix">
+                    <div class="bank-item cursor clearfix" @click="goPath('creditCard',item.bank_id)">
                       <img :src="'http://www.fanrenli.com'+item.bank_logo_small" alt="" class="fl">
                       <p class="fl">{{item.bank_name}}</p>
                       <b class="fr">{{item.creditcard_nums}}
@@ -40,7 +40,7 @@
                 <div class="credit-info">
                   <el-row :gutter="20">
                     <el-col :span="8" v-for="(val,index) in creditList" :key="index" style="margin-bottom:15px;">
-                      <div class="cursor">
+                      <div class="cursor hot-card-item" @click="goPath('creditInfo',val.id)">
                         <img :src="'http://www.fanrenli.com'+val.card_img" alt="">
                         <p class="line-ellipsis01">{{val.card_name}}</p>
                       </div>
@@ -57,7 +57,7 @@
                 <div class="hots">
                   <ul>
                     <li v-for="(val,index) in articleList" :key="index" class="line-ellipsis01">
-                      <a href="javascript:;">• {{val.post_title}}</a>
+                      <a href="javascript:;" @click="goPath('newsInfo',val.id)">• {{val.post_title}}</a>
                     </li>
                   </ul>
                 </div>
@@ -88,7 +88,7 @@
                 <div class="hots">
                   <ul>
                     <li v-for="(val,index) in loanList" :key="index" class="line-ellipsis01">
-                      <a href="javascript:;">• {{val.post_title}}</a>
+                      <a href="javascript:;"  @click="goPath('newsInfo',val.id)">• {{val.post_title}}</a>
                     </li>
                   </ul>
                 </div>
@@ -153,6 +153,16 @@ export default {
     // this.getLoanData();
   },
   methods:{
+    goPath(pathName,id){
+      const {href} = this.$router.resolve({
+        path: pathName,
+        query: {
+          id: id
+        }
+      })
+      window.open(href, '_blank')
+      // this.$router.push({path:pathName, query:{ id: id }});
+    },
     getIndexData(){
       this.$http({
         method: "post",
@@ -206,7 +216,12 @@ export default {
 .index-main {
   padding-bottom: 20px;
 }
-
+.hot-card-item:hover img{
+  transform: scale(1.05);
+}
+.hot-card-item:hover{
+  color:#4978c4;
+}
 .index-main h2,
 .cooperate h2 {
   font-size: 24px;
