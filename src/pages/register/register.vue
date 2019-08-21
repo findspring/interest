@@ -57,7 +57,8 @@ export default {
         ],
         valcode: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 4, max: 4, message: '4位验证码', trigger: 'blur' }
+          { min: 4, max: 4, message: '4位数字验证码', trigger: 'blur' },
+          { pattern: /^\d{4}$/, message: '4位数字验证码', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },

@@ -4,7 +4,7 @@ import storage from 'good-storage'
 Vue.use(Vuex);
 const state = {
 	token: storage.get("token", ""),
-	token: storage.get("params", ""),
+	params: storage.get("params", ""),
 }
 
 const getters = {
@@ -30,12 +30,9 @@ const mutations = {
 		storage.set("token", "")
 	}
 }
-const store = new Vuex.Store({
+export default new Vuex.Store({
 	state,
 	getters,
+	actions,
 	mutations
 });
-
-export default {
-	store
-}

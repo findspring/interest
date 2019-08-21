@@ -19,19 +19,17 @@ axios.interceptors.response.use((res) => {
 			return res
 		case 1:
 			return res
-		case '8002':
-			location.href = res.data.errMsg;
-			return
-		case '8888':
-			location.href = res.data.errMsg;
-			return
-		case '8889':
-			location.href = res.data.errMsg;
+		case '400':
+			Message.error({
+				showClose: true,
+				message: res.data.msg,
+				type: 'error'
+			});
 			return
 		default:
 			Message.error({
 				showClose: true,
-				message: res.data.errMsg,
+				message: res.data.msg,
 				type: 'error'
 			});
 			break;

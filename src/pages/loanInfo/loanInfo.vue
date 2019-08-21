@@ -4,29 +4,29 @@
 			<div class="loan-main clearfix">
         <div class="loan-left fl">
           <div class="loan-info">
-            <h3>宜信  -  保单贷</h3>
+            <h3>{{loan_info.loan_company}}-{{loan_info.loan_name}} <img class="fr" :src="'http://www.fanrenli.com'+loan_info.loan_company_logo" alt=""></h3>
             <div class="loan-msg clearfix">
               <ul>
                 <li>
-                  <img src="" alt="">
+                  <!-- <i class="el-icon-edit"></i> -->
                   <span>无需抵押</span>
                 </li>
                 <li>
-                  <img src="" alt="">
-                  <span>上班族 可申请</span>
+                  <!-- <i class="el-icon-edit"></i> -->
+                  <span>{{loan_info.lendto}}</span>
                 </li>
                 <li>
-                  <img src="" alt="">
-                  <span>1天放款</span>
+                  <!-- <i class="el-icon-edit"></i> -->
+                  <span>{{loan_info.lending_time}}</span>
                 </li>
               </ul>
               <div class="loan-btn">
                 <a href="javascript:;">我想申请</a>
-                <p>少于<b>100人</b>申请</p>
+                <p><b>{{loan_info.applied_nums}}</b>人申请成功</p>
               </div>
             </div>            
             <div class="loan-lilv clearfix">
-              <p>利率说明：月管理费2.39%+一次性收费3% </p>
+              <p>利率说明：{{loan_info.prepayment_mark}}  &nbsp;&nbsp; &nbsp;&nbsp;<span>服务费：{{loan_info.service_charge}}</span></p>
             </div>
           </div>
           <div class="loan-knowledge">
@@ -34,11 +34,11 @@
             <div class="loan-condition">
               <h5>申请条件</h5>
               <div class="loan-item">
-                <p>年龄要求：25-60周岁；</p>
+                <p v-for="(item,index) in loan_info.apply_requirement" :key="index">{{item}}</p>
               </div>
               <h5>所需材料</h5>
               <div class="loan-item">
-                <p>1.二代身份证</p>
+                <p v-for="(item,index) in loan_info.material_needed" :key="index">{{item}}</p>
               </div>
             </div>
           </div>
@@ -59,13 +59,35 @@ export default {
   data() {
     return {
       newsImg01:require('../../assets/imgs/loan01.png'),
+      loan_info:{},
     };
   },
+  watch: {
+    $route: {
+      handler(val) {
+        if(val.query && val.query.id){
+          this.getLoanInfo(val.query.id);
+        }
+      },
+      // deep:true,
+      immediate: true
+    },
+  },
   mounted(){
-		
+		this.getLoanInfo(this.$route.query.id);
   },
   methods:{
-
+    getLoanInfo(id){
+      this.$http({
+        method: "get",
+        url: "/portal/loan/loandetail?id="+id,
+        // data: this.$qs.stringify(params)
+      }).then((res) => {
+        let result = res.data.data;
+        this.loan_info = result.loan_info;
+      }).catch((err) => {
+      });
+    },
   }
 };
 </script>
@@ -88,6 +110,10 @@ export default {
     line-height: 60px;
     border-bottom: 2px solid #4072d7;
   }
+  .loan-info h3 img{
+    margin-top: 4px;
+
+  }
   .loan-msg{}
   .loan-msg ul {
     margin-top: 20px;
@@ -107,6 +133,9 @@ export default {
     float: right;
     width:30%;
     text-align: center;
+  }
+  .loan-btn p b{
+    color:red;
   }
   .loan-btn a{
     margin:0 auto;

@@ -4,8 +4,9 @@
 			<div class="block">
 	      <el-carousel height="350px">
 	        <el-carousel-item v-for="(item,index) in indexArr" :key="index">
-	          <img v-bind:src="item">
-	          <!-- <h3 class="small">{{ item }}</h3> -->
+	          <a href="javascript:;"  @click="goLink(item.url)">
+	          	<img :src="'http://www.fanrenli.com'+item.img_path">
+	          </a>
 	        </el-carousel-item>
 	      </el-carousel>
 	    </div>
@@ -16,9 +17,8 @@
 	    			<h4>热门贷款</h4>
 	    			<ul>
 	    				<li class="flex" v-for="(item,index) in loanList" :key="index">
-	    					<!-- <img :src="'http://www.fanrenli.com' + item.loan_supplier_logo" alt=""> -->
-	    					<p style="padding-left:20px;">{{item.loan_name}}</p>
-								<p>{{item.loan_supplier}}</p>
+	    					<img :src="'http://www.fanrenli.com' + item.loan_company_logo" alt="">
+								<p>{{item.loan_name}}</p>
 								<span>{{item.lending_time}}</span>
 								<a href="javascript:;" class="loan-btn" @click="goPath('loanInfo',item.id)">查看</a>
 	    				</li>
@@ -48,10 +48,7 @@ export default {
 
   data() {
     return {
-			indexArr:[
-        require('../../assets/imgs/index1.jpeg'),
-        require('../../assets/imgs/index2.jpeg'),
-      ],
+			indexArr:[],
       loanList:[],
       articleList:[],
       newsImg01:require('../../assets/imgs/loan01.png'),
@@ -61,6 +58,9 @@ export default {
 		this.getLoanData();
   },
   methods:{
+  	goLink(url){
+			window.open(url);
+  	},
   	goPath(pathName,id){
       const {href} = this.$router.resolve({
         path: pathName,
@@ -78,6 +78,7 @@ export default {
         // data: this.$qs.stringify(params)
       }).then((res) => {
       	let result = res.data.data;
+      	this.indexArr = result.banners;
 				this.loanList = result.loanlist;
 				this.articleList = result.loan_articles;
       }).catch((err) => {

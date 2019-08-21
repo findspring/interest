@@ -4,8 +4,9 @@
     <div class="block">
       <el-carousel height="350px">
         <el-carousel-item v-for="(item,index) in indexArr" :key="index">
-          <img v-bind:src="item">
-          <!-- <h3 class="small">{{ item }}</h3> -->
+          <a href="javascript:;"  @click="goLink(item.url)">
+            <img :src="'http://www.fanrenli.com'+item.img_path">
+          </a>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -130,15 +131,11 @@
   </div>
 </template>
 <script>
-// import vHeader from "components/header/header";
 export default {
   name: 'index',
   data() {
     return {
-      indexArr:[
-        require('../../assets/imgs/index1.jpeg'),
-        require('../../assets/imgs/index2.jpeg'),
-      ],
+      indexArr:[],
     	loanImg01:require('../../assets/imgs/loan01.png'),
     	loanImg02:require('../../assets/imgs/loan02.jpg'),
       bankList:[],
@@ -149,10 +146,11 @@ export default {
   },
   mounted(){
     this.getIndexData();
-    // this.getCreditData();
-    // this.getLoanData();
   },
   methods:{
+    goLink(url){
+      window.open(url);
+    },
     goPath(pathName,id){
       const {href} = this.$router.resolve({
         path: pathName,
@@ -171,44 +169,15 @@ export default {
         })
       }).then((res) => {
         let creditDatas = res.data.data;
+        this.indexArr = creditDatas.banners;
         this.bankList = creditDatas.bank_list;
         this.creditList = creditDatas.credit_list;
         this.articleList = creditDatas.credit_articles;
-        this.loanList = creditDatas.loan_articles
-        // console.log(res.data.data);
+        this.loanList = creditDatas.loan_articles;
       }).catch((err) => {
       });
     },
-    // getCreditData(){
-    //   this.$http({
-    //     method: "post",
-    //     url: "/portal/index/index_credit",
-    //     data: this.$qs.stringify({
-    //     })
-    //   }).then((res) => {
-    //     let creditDatas = res.data.data;
-    //     this.bankList = creditDatas.bank_list;
-    //     this.creditList = creditDatas.credit_list;
-    //     this.articleList = creditDatas.credit_articles;
-    //     // console.log(res.data.data);
-    //   }).catch((err) => {
-    //   });
-    // },
-    // getLoanData(){
-    //   this.$http({
-    //     method: "post",
-    //     url: "/portal/index/index_loan",
-    //     data: this.$qs.stringify({
-    //     })
-    //   }).then((res) => {
-    //     this.loanList = res.data.data;
-    //   }).catch((err) => {
-    //   });
-    // },
   },
-  components: {
-    // vHeader
-  }
 };
 
 </script>

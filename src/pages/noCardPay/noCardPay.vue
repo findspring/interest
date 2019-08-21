@@ -3,8 +3,9 @@
 		<div class="block">
       <el-carousel height="350px">
         <el-carousel-item v-for="(item,index) in indexArr" :key="index">
-          <img v-bind:src="item">
-          <!-- <h3 class="small">{{ item }}</h3> -->
+          <a href="javascript:;"  @click="goLink(item.url)">
+          	<img :src="'http://www.fanrenli.com'+item.img_path">
+          </a>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -13,7 +14,7 @@
     	<div class="news-left fl">
     		<h4>大家都在看的优惠</h4>
 	    	<ul class="list-info">
-	    		<li class="list-item" v-for="(item,index) in articleList" :key="index">
+	    		<li class="list-item" v-for="(item,index) in articleList" :key="index" @click="goPath('newsInfo',item.id)">
 	    			<a href="javascript:;">
 	    				<img :src="'http://www.fanrenli.com' + item.thumbnail" alt="">
 		    			<p class="p1">{{item.post_title}}</p>
@@ -38,27 +39,39 @@ export default {
 
   data() {
     return {
-			indexArr:[
-        require('../../assets/imgs/index1.jpeg'),
-        require('../../assets/imgs/index2.jpeg'),
-      ],
+			indexArr:[],
       articleList:[],
       newsImg01:require('../../assets/imgs/loan01.png'),
     };
   },
   mounted(){
-		this.getDiscount();
+		this.getNocardData();
   },
   methods:{
-  	getDiscount(){
+  	goLink(url){
+			window.open(url);
+  	},
+  	goPath(pathName,id){
+      const {href} = this.$router.resolve({
+        path: pathName,
+        query: {
+          id: id
+        }
+      })
+      window.open(href, '_blank')
+      // this.$router.push({path:pathName, query:{ id: id }});
+    },
+  	getNocardData(){
   		let params={};
   		// params.id = '5d4d96382e3f40917e927201';
       this.$http({
         method: "post",
-        url: "/portal/credit/youhui",
+        url: "/portal/cardlesspay/index",
         // data: this.$qs.stringify(params)
       }).then((res) => {
-      	this.articleList = res.data.data.youhui_articles
+      	let result = res.data.data;
+      	this.indexArr = result.banners;
+      	this.articleList = result.articles
       }).catch((err) => {
       });
     },

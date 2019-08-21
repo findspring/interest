@@ -18,7 +18,9 @@
             <div class="nav-title clearfix">
               <ul>
                 <li><span>客服联系方式：10100360</span></li>
-                <li class="cursor" @click="goPath('login')">登录/注册</li>
+                <li v-if="!hasLogin" class="cursor login-top-item" @click="goPath('login')">登录/注册</li>
+                <li v-if="hasLogin" class="cursor login-top-item" @click="goPath('personal')">个人中心</li>
+                <li v-if="hasLogin" class="cursor login-out login-top-item"><i class="el-icon-warning-outline" @click="loginOut()"></i>退出登录</li>
               </ul>
             </div>
             <!-- nav -->
@@ -91,9 +93,13 @@ export default {
       logoUrl: require('../../assets/imgs/logo.png'),
       activeIndex: 'index',
       LocationCity: '定位中',
+      hasLogin:false,
     };
   },
   methods: {
+    loginOut(){
+      this.$router.push({name:'login'});
+    },
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);
     },
@@ -133,7 +139,6 @@ export default {
     if(this.activeIndex == ""){
       this.activeIndex = 'index';
     }
-  	console.log(window.location.pathname)
     this.getLocation();
   }
 };
@@ -151,7 +156,16 @@ export default {
   width: 1000px;
   margin: 0 auto;
 }
+.login-out{
 
+}
+.login-top-item:hover{
+  color:#4978c4;
+}
+.login-out i{
+  margin-right: 5px;
+  font-size: 14px;
+}
 .logo img {
   padding: 10px 0 16px 0;
 }

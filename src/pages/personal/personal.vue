@@ -21,8 +21,8 @@
 			          <el-form-item label="新密码" prop="password">
 			            <el-input type="password" v-model="ruleForm.password" show-password autocomplete="on" placeholder="请输入新密码"></el-input>
 			          </el-form-item>
-			          <el-form-item label="重复密码" prop="password">
-			            <el-input type="password" v-model="ruleForm.password" show-password autocomplete="on" placeholder="请再次输入新密码"></el-input>
+			          <el-form-item label="重复密码" prop="checkPass">
+			            <el-input type="password" v-model="ruleForm.checkPass" show-password autocomplete="on" placeholder="请再次输入新密码"></el-input>
 			          </el-form-item>
 			          <el-button type="primary" @click="submitForm('ruleForm')" style="width:100%;margin:30px 0;">确认修改</el-button>
 			        </el-form>
@@ -41,6 +41,15 @@ export default {
   name: 'personal',
 
   data() {
+  	var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
 			activeName: 'intro',
 			companyInfo:'',
@@ -48,7 +57,8 @@ export default {
 			news:[],
 			ruleForm: {
         username: '',
-        password: ''
+        password: '',
+        checkPass:'',
       },
       rules: {
         username: [
@@ -58,6 +68,9 @@ export default {
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass, trigger: 'blur' }
         ]
       },
       checked: false

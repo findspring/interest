@@ -65,7 +65,7 @@
 		    					<p><b class="color-yellow">{{item.applied_nums}}人</b>申请</p>
 		    				</div>
 		    			</div>
-		    			<div class="change-page">
+		    			<div class="change-page" v-if="totalNum > 0">
 		    				<el-pagination
 		    					class="fr"
 		    					background
@@ -208,6 +208,8 @@ export default {
   		if(this.locked == true){
   			return false
   		}
+  		this.getFilterData();
+  		this.condition = {};
   		this.locked = true;
 			this.activeName = 'first';
 			this.getResultData(1,this.searchInfo)
@@ -282,16 +284,15 @@ export default {
       }).catch((err) => {
       });
     },
+    //信用卡优惠
     getDiscount(){
-  		let params={};
-  		// params.id = '5d4d96382e3f40917e927201';
       this.$http({
         method: "post",
         url: "/portal/credit/youhui",
         // data: this.$qs.stringify(params)
       }).then((res) => {
       	this.indexArr = res.data.data.banners
-      	this.articleList = res.data.data.yh_articles;
+      	this.articleList = res.data.data.articles;
       }).catch((err) => {
       });
     },
@@ -325,6 +326,7 @@ export default {
       	this.totalNum = result.total;
       	this.locked = false;
       }).catch((err) => {
+      	this.locked = false;
       });
     },
 		handleClick(tab, event) {
@@ -393,6 +395,7 @@ export default {
 		padding: 20px;
 	}
 	.card-result{
+		min-height: 350px;
 		padding-bottom: 40px;
 	}
 	.color-yellow{

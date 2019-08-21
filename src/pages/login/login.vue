@@ -33,6 +33,8 @@
   </div>
 </template>
 <script>
+import store from '../../store/index.js'
+import { mapGetters,mapActions,mapMutations } from 'vuex'
 export default {
 
   name: 'login',
@@ -52,11 +54,13 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
-          { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+          { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' },
+          { pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
         ],
         valcode: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 4, max: 4, message: '4位验证码', trigger: 'blur' }
+          { min: 4, max: 4, message: '4位数字验证码', trigger: 'blur' },
+          { pattern: /^\d{4}$/, message: '4位数字验证码', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -64,6 +68,11 @@ export default {
         ]
       },
     };
+  },
+  computed: {
+    ...mapGetters([
+      'goods_obj', 'goods_length'
+    ])
   },
   methods: {
     sendCode(){
@@ -105,6 +114,7 @@ export default {
       this.$router.push({name:'forgetPwd'});
     },
     submitForm(formName) {
+      let _this = this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //判断复选框是否被勾选 勾选则调用配置cookie方法
@@ -123,11 +133,16 @@ export default {
               params
             })
           }).then((res) => {
+            // _this.store.commit('addToken',1111)
+            _this.addToken('555');
             // let creditDatas = res.data.data;
             // console.log(res.data.data);
+            // this.$router.push({ path: 'index'});
           }).catch((err) => {
+            // _this.store.commit('addToken',222)
+            _this.addToken('1221');
           });
-          this.$router.push({ name: 'index', params: { user: self.ruleForm.username, pwd: self.ruleForm.password } });
+          
         } else {
           console.log('error submit!!');
           return false;
@@ -138,35 +153,36 @@ export default {
     //   this.$refs[formName].resetFields();
     // },
     //设置cookie
-    setCookie(c_name, c_pwd, exdays) {
-      var exdate = new Date(); //获取时间
-      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
-      //字符串拼接cookie
-      window.document.cookie = "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
-      window.document.cookie = "password" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
-    },
-    //读取cookie
-    getCookie: function() {
-      if (document.cookie.length > 0) {
-        var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
-        for (var i = 0; i < arr.length; i++) {
-          var arr2 = arr[i].split('='); //再次切割
-          //判断查找相对应的值
-          if (arr2[0] == 'userName') {
-            //  console.log(arr2[1])
-            this.ruleForm.username = arr2[1]; //保存到保存数据的地方
-          } else if (arr2[0] == 'password') {
-            // console.log(arr2[1])
-            this.ruleForm.password = arr2[1];
-          }
-        }
-        this.checked = true;
-      }
-    },
-    //清除cookie
-    clearCookie: function() {
-      this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
-    }
+    // setCookie(c_name, c_pwd, exdays) {
+    //   var exdate = new Date(); //获取时间
+    //   exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
+    //   //字符串拼接cookie
+    //   window.document.cookie = "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
+    //   window.document.cookie = "password" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
+    // },
+    // //读取cookie
+    // getCookie: function() {
+    //   if (document.cookie.length > 0) {
+    //     var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
+    //     for (var i = 0; i < arr.length; i++) {
+    //       var arr2 = arr[i].split('='); //再次切割
+    //       //判断查找相对应的值
+    //       if (arr2[0] == 'userName') {
+    //         //  console.log(arr2[1])
+    //         this.ruleForm.username = arr2[1]; //保存到保存数据的地方
+    //       } else if (arr2[0] == 'password') {
+    //         // console.log(arr2[1])
+    //         this.ruleForm.password = arr2[1];
+    //       }
+    //     }
+    //     this.checked = true;
+    //   }
+    // },
+    // //清除cookie
+    // clearCookie: function() {
+    //   this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+    // },
+    ...mapMutations(['addToken'])
 
   }
 };
