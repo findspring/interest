@@ -6,7 +6,7 @@
 		    	<div class="personal-data about-item">
 		    		<h3>资料信息</h3>
 		    		<div class="intro-main">
-		    			<p><span>手机号：</span>已认证</p>
+		    			<p><span>手机号：</span>{{mobile}}</p>
 		    		</div>
 		    	</div>
 		    </el-tab-pane>
@@ -15,8 +15,8 @@
 						<h3>修改密码</h3>
 		    		<div class="intro-main">
 							<el-form :model="ruleForm" :rules="rules" label-position="left" ref="ruleForm" label-width="100" class="login-form">
-			          <el-form-item label="原密码" prop="username">
-			            <el-input v-model="ruleForm.username" autocomplete="on" clearable placeholder="请输入原密码"></el-input>
+			          <el-form-item label="原密码" prop="oldPass">
+			            <el-input type="password" v-model="ruleForm.oldPass" show-password autocomplete="on" clearable placeholder="请输入原密码"></el-input>
 			          </el-form-item>
 			          <el-form-item label="新密码" prop="password">
 			            <el-input type="password" v-model="ruleForm.password" show-password autocomplete="on" placeholder="请输入新密码"></el-input>
@@ -24,7 +24,7 @@
 			          <el-form-item label="重复密码" prop="checkPass">
 			            <el-input type="password" v-model="ruleForm.checkPass" show-password autocomplete="on" placeholder="请再次输入新密码"></el-input>
 			          </el-form-item>
-			          <el-button type="primary" @click="submitForm('ruleForm')" style="width:100%;margin:30px 0;">确认修改</el-button>
+			          <el-button type="primary" @click="resetPwd('ruleForm')" style="width:100%;margin:30px 0;">确认修改</el-button>
 			        </el-form>
 		    		</div>
 					</div>
@@ -56,74 +56,65 @@ export default {
 			contactInfo:'',
 			news:[],
 			ruleForm: {
-        username: '',
+        oldPass: '',
         password: '',
         checkPass:'',
       },
       rules: {
-        username: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
+        oldPass: [
+          { required: true, message: '请输入原密码', trigger: 'blur' },
           { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { required: true, message: '请输入新密码', trigger: 'blur' },
           { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
         ],
         checkPass: [
+        	{ required: true, message: '请再次输入新密码', trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ]
       },
-      checked: false
+      mobile: '',
 
     };
   },
-  watch: {
-    $route: {
-      handler(val) {
-        // this.changeTab();
-      },
-      // deep:true,
-      immediate: true
-    },
-  },
   mounted(){
-  	// this.changeTab();
   	this.getPersonal();
   },
   methods:{
-  	submitForm(formName) {
+  	resetPwd(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const self = this;
-          //判断复选框是否被勾选 勾选则调用配置cookie方法
-          if (self.checked == true) {
-            //传入账号名，密码，和保存天数3个参数
-            self.setCookie(self.ruleForm.username, self.ruleForm.password, 7);
-          } else {
-            console.log("清空Cookie");
-            //清空Cookie
-            self.clearCookie();
-          }
-          alert('登录成功!');
-          this.$router.push({ name: 'index', params: { user: self.ruleForm.username, pwd: self.ruleForm.password } });
+        	let params = {};
+          params.old_password = this.ruleForm.oldPass;
+          params.password = this.ruleForm.password;
+          params.confirm_password = this.ruleForm.checkPass;
+          this.$http({
+		        method: "post",
+		        url: "/user/profile/changepassword",
+		        data: this.$qs.stringify(params)
+		      }).then((res) => {
+		      	this.$message({
+	            message: '密码修改成功',
+	            showClose: true,
+	            type: 'success'
+	          });
+	          this.$refs[formName].resetFields();
+		      }).catch((err) => {
+		      });
         } else {
           console.log('error submit!!');
           return false;
         }
       });
     },
-		// changeTab(){			
-	 //  	if(this.$route.params && this.$route.params.activeName){
-	 //  		this.activeName = this.$route.params.activeName;
-	 //  	}
-		// },
 		getPersonal(){
       this.$http({
-        method: "post",
-        url: "/user/profile/center",
+        method: "get",
+        url: "/user/profile/userinfo",
       }).then((res) => {
       	let result = res.data.data;
-      	console.log('test',result);
+      	this.mobile = result.mobile;
       }).catch((err) => {
       });
 		},

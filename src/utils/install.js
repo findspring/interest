@@ -19,7 +19,7 @@ axios.interceptors.response.use((res) => {
 			return res
 		case 1:
 			return res
-		case '400':
+		case 400:
 			Message.error({
 				showClose: true,
 				message: res.data.msg,
@@ -84,6 +84,5 @@ export default {
 		Vue.prototype.$http = axios;
 		Vue.prototype.$axios = axios;
 		Vue.prototype.$qs = qs;
-		// Vue.prototype.$road = process.env.road;
 	}
 }

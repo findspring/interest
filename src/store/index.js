@@ -4,12 +4,12 @@ import storage from 'good-storage'
 Vue.use(Vuex);
 const state = {
 	token: storage.get("token", ""),
-	params: storage.get("params", ""),
+	isLogin: sessionStorage.getItem("isLogin") ? JSON.parse(sessionStorage.getItem("isLogin")) : false,
 }
 
 const getters = {
 	getToken: state => state.token,
-	getParams: state => state.params,
+	isLogin: state => state.isLogin,
 }
 
 const actions = {
@@ -21,9 +21,9 @@ const mutations = {
 		state.token = val;
 		storage.set("token", val)
 	},
-	addParams(state, val) {
-		state.token = val;
-		storage.set("params", val)
+	addLogin(state, val) {
+		state.isLogin = val;
+		sessionStorage.setItem("isLogin", val);
 	},
 	removeToken(state) {
 		state.token = "";

@@ -53,12 +53,13 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
-          { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+          // { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+          { pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
         ],
         valcode: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 4, max: 4, message: '4位数字验证码', trigger: 'blur' },
-          { pattern: /^\d{4}$/, message: '4位数字验证码', trigger: 'blur' }
+          { min: 6, max: 6, message: '6位数字验证码', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '6位数字验证码', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -82,6 +83,23 @@ export default {
               clearInterval(timer);
             }
           }, 1000)
+          this.$http({
+            method: "get",
+            url: "/user/verification_code/send?username="+this.ruleForm.username,
+          }).then((res) => {
+            this.$message({
+              message: res.data.msg,
+              showClose: true,
+              type: 'success'
+            });
+            console.log(555,res.data.data);
+          }).catch((err) => {
+            this.$message({
+              message: err,
+              showClose: true,
+              type: 'warning'
+            });
+          });
         }else{
           this.$message({
             message: '请先输入正确的手机号',
@@ -109,19 +127,23 @@ export default {
           this.$http({
             method: "post",
             url: "/user/public/register",
-            data: this.$qs.stringify({
-              params
-            })
+            data: this.$qs.stringify(params)
           }).then((res) => {
-            // let creditDatas = res.data.data;
-            this.$router.push({ name: 'login'});
-            console.log(res.data.data);
+            if(res.data.code == 200){
+              this.$message({
+                message: res.data.msg,
+                showClose: true,
+                type: 'success'
+              });
+              // let creditDatas = res.data.data;
+              this.$router.push({ name: 'login'});
+            }
           }).catch((err) => {
             this.$message({
-            message: err,
-            showClose: true,
-            type: 'warning'
-          });
+              message: err,
+              showClose: true,
+              type: 'warning'
+            });
           });
         } else {
           console.log('error submit!!');

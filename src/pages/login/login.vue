@@ -33,7 +33,6 @@
   </div>
 </template>
 <script>
-import store from '../../store/index.js'
 import { mapGetters,mapActions,mapMutations } from 'vuex'
 export default {
 
@@ -54,13 +53,13 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
-          { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' },
+          // { min: 4, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' },
           { pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
         ],
         valcode: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 4, max: 4, message: '4位数字验证码', trigger: 'blur' },
-          { pattern: /^\d{4}$/, message: '4位数字验证码', trigger: 'blur' }
+          { min: 6, max: 6, message: '6位数字验证码', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '6位数字验证码', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -129,20 +128,16 @@ export default {
           this.$http({
             method: "post",
             url: "/user/public/login",
-            data: this.$qs.stringify({
-              params
-            })
+            data: this.$qs.stringify(params)
           }).then((res) => {
-            // _this.store.commit('addToken',1111)
-            _this.addToken('555');
-            // let creditDatas = res.data.data;
-            // console.log(res.data.data);
-            // this.$router.push({ path: 'index'});
+            let result = res.data.data;
+            if(result.token){
+              _this.addToken(result.token);
+              _this.addLogin(true);
+            }   
+            this.$router.push({ path: 'index'});
           }).catch((err) => {
-            // _this.store.commit('addToken',222)
-            _this.addToken('1221');
-          });
-          
+          });          
         } else {
           console.log('error submit!!');
           return false;
@@ -182,7 +177,10 @@ export default {
     // clearCookie: function() {
     //   this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
     // },
-    ...mapMutations(['addToken'])
+    ...mapMutations({
+      addToken: "addToken",
+      addLogin:"addLogin",
+    })
 
   }
 };

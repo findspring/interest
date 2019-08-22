@@ -20,36 +20,15 @@ Vue.use(ElementUI)
 import './assets/css/reset.css'
 
 router.beforeEach((to, from, next) => {
-	// console.log(localStorage.getItem('token') || "");
 	//title变化
 	if (to.meta.title) {
 		document.title = to.meta.title
 	}
-	// if (to.path === '/login') {
-	// 	next();
-	// } else {
-	// 	let token = localStorage.getItem('authToken') || "";
-
-	// 	if (token === 'null' || token === '') {
-	// 		Message({
-	// 			message: '请先登录后再访问页面',
-	// 			showClose: true,
-	// 			type: 'warning'
-	// 		});
-	// 		next('/login');
-	// 	} else {
-	// 		next();
-	// 	}
-	// }
-	// 获取authToken
-	// let authToken = localStorage.getItem("authToken") || "";
-	// if (!authToken) {
-	//   authToken = obj.getQueryString("authToken")
-	//   if (authToken){
-	//     localStorage.setItem("authToken", authToken)
-	//   }
-	// }
-	// Vue.prototype.$http.defaults.headers['common']['authToken']= localStorage.getItem("authToken")||"";
+	if (to.path === '/personal') {
+		if (store.getters.getToken) {
+			Vue.prototype.$http.defaults.headers['XX-Token'] = store.getters.getToken;
+		}
+	}
 	next()
 });
 

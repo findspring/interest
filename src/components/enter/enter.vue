@@ -1,6 +1,20 @@
 <template>
   <div class="clearfix page-component__scroll">
-    <el-backtop target=".test"></el-backtop>
+    <el-backtop target=".page-component__scroll" :bottom="100">
+    <div
+      style="{
+        height: 100%;
+        width: 100%;
+        background-color: #f2f5f6;
+        box-shadow: 0 0 6px rgba(0,0,0, .12);
+        text-align: center;
+        line-height: 40px;
+        color: #1989fa;
+      }"
+    >
+      UP
+    </div>
+  </el-backtop>
     <el-container class="test">
       <el-header class="header-wraper">
         <div id="header" class="clearfix">
@@ -20,7 +34,7 @@
                 <li><span>客服联系方式：10100360</span></li>
                 <li v-if="!hasLogin" class="cursor login-top-item" @click="goPath('login')">登录/注册</li>
                 <li v-if="hasLogin" class="cursor login-top-item" @click="goPath('personal')">个人中心</li>
-                <li v-if="hasLogin" class="cursor login-out login-top-item"><i class="el-icon-warning-outline" @click="loginOut()"></i>退出登录</li>
+                <li v-if="hasLogin" class="cursor login-out login-top-item" @click="loginOut"><i class="el-icon-warning-outline"></i>退出登录</li>
               </ul>
             </div>
             <!-- nav -->
@@ -37,9 +51,13 @@
       </el-header>
       <el-main>
         <div id="main">
-          <keep-alive>
+          <!-- <keep-alive>
             <router-view ></router-view>
+          </keep-alive> -->
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
         </div>
       </el-main>
       <el-footer class="bg-gray" height="230px">
@@ -56,16 +74,16 @@
       					<a href="javascript:;" @click="goPath('about','','trends')">公司动态</a>
       				</li>
               <li>
-                <a href="javascript:;">联系我们</a>
+                <a href="javascript:;" @click="goPath('about','','contact')">联系我们</a>
               </li>
               <li>
-                <a href="javascript:;">公司动态</a>
+                <a href="javascript:;" @click="goPath('about','','trends')">公司动态</a>
               </li>
       			</ul>
       		</div>
       		<div class="footer-msg">
-      			<p>融360贷款 - 深圳小额贷款平台 版权所有 | 营业执照</p>
-	      		<p>违法和不良信息举报邮箱：tousu@rong360.com      京公网安备 11010802020662号</p>
+      			<p>深圳市赫比亚网络科技有限公司 保留所有权利 版权所有 | 营业执照</p>
+	      		<p>违法和不良信息举报邮箱：tousu@365qulicai.com      粤ICP备17024414号-1</p>
 	      		<p></p>
       		</div>
           <div class="footer-imgs flex">
@@ -80,6 +98,7 @@
 </template>
 <script>
 import BMap from 'BMap'
+import { mapGetters,mapActions,mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -93,12 +112,30 @@ export default {
       logoUrl: require('../../assets/imgs/logo.png'),
       activeIndex: 'index',
       LocationCity: '定位中',
-      hasLogin:false,
     };
+  },
+  computed:{
+    hasLogin(){
+      return this.$store.getters.isLogin;
+    }
   },
   methods: {
     loginOut(){
-      this.$router.push({name:'login'});
+      this.$http({
+        method: "get",
+        url: "/user/public/logout",
+        headers: {'XX-Token': this.$store.getters.getToken}
+      }).then((res) => {
+        this.$message({
+          message: '退出成功！',
+          showClose: true,
+          type: 'success'
+        });
+        this.removeToken();
+        this.addLogin(false);
+        this.$router.push({name:'login'});
+      }).catch((err) => {
+      });
     },
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);
@@ -132,6 +169,10 @@ export default {
       }
 			
     },
+    ...mapMutations({
+      removeToken: "removeToken",
+      addLogin:"addLogin",
+    })
   },
   mounted() {
   	//获取地址栏中的路由，设置elementui中的导航栏选中状态

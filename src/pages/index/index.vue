@@ -152,11 +152,13 @@ export default {
       window.open(url);
     },
     goPath(pathName,id){
+      let paramId = {id: id};
+      if(pathName == 'creditCard'){
+        paramId = {cardId:id};
+      }
       const {href} = this.$router.resolve({
         path: pathName,
-        query: {
-          id: id
-        }
+        query: paramId
       })
       window.open(href, '_blank')
       // this.$router.push({path:pathName, query:{ id: id }});

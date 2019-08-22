@@ -39,7 +39,8 @@
 		    		</div>
 		    		<!-- result -->
 		    		<div class="card-result">
-		    			<div class="card-total"><p>共找到<b>{{totalNum}}</b>款信用卡</p></div>
+		    			<div class="card-total" v-if="totalNum>0"><p>共找到<b>{{totalNum}}</b>款信用卡</p></div>
+		    			<div v-else class="no-card">温馨提示:在现在的筛选条件下，没有找到符合您要求的信用卡</div>
 		    			<div class="result-item clearfix" v-for="(item,index) in resultArr" :key="index">
 		    				<img :src="'http://www.fanrenli.com' + item.card_img" alt="">
 		    				<div class="card-msg">
@@ -151,18 +152,17 @@ export default {
   watch: {
     $route: {
       handler(val) {
-      	if(val.query && val.query.id){
+      	if(val.query && val.query.cardId){
       		setTimeout(() => {
       		  this.category[0].item_active = false;
       		  this.category[0].items.forEach((item,index) => {
-      		    if(item.bank_id == val.query.id){
+      		    if(item.bank_id == val.query.cardId){
       		    	item.active = true;
       		    }else{
       		    	item.active = false;
       		    }
       		  })
-      		  this.$set(this.condition,'bank_id',+val.query.id);
-      		  console.log(888,this.condition);
+      		  this.$set(this.condition,'bank_id',+val.query.cardId);
       		  this.getResultData(2,this.condition);
       		  // this.category[0].items[val.query.id].active = true;
       		  // this.$set(this.category[0],item_active,false);
@@ -170,7 +170,6 @@ export default {
       		// this.getDetailData(val.query.id);
       	}        
       },
-      // deep:true,
       immediate: true
     },
   },
@@ -347,6 +346,15 @@ export default {
 		font-size: 16px;
 		line-height: 48px;
 		border-bottom: 1px solid #e4e4e4;
+	}
+	.no-card{
+		width: 100%;
+		height: 60px;
+		line-height: 60px;
+		font-size: 16px;
+		padding-left: 20px;
+		background: #f8f8f8;
+		color:#ff6000;
 	}
 	.news-left ul{
 		width: 100%;
