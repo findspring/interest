@@ -152,17 +152,17 @@ export default {
   watch: {
     $route: {
       handler(val) {
-      	if(val.query && val.query.cardId){
+      	if(val.query && val.query.bankId){
       		setTimeout(() => {
       		  this.category[0].item_active = false;
       		  this.category[0].items.forEach((item,index) => {
-      		    if(item.bank_id == val.query.cardId){
+      		    if(item.bank_id == val.query.bankId){
       		    	item.active = true;
       		    }else{
       		    	item.active = false;
       		    }
       		  })
-      		  this.$set(this.condition,'bank_id',+val.query.cardId);
+      		  this.$set(this.condition,'bank_id',+val.query.bankId);
       		  this.getResultData(2,this.condition);
       		  // this.category[0].items[val.query.id].active = true;
       		  // this.$set(this.category[0],item_active,false);

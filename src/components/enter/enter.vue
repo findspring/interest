@@ -1,20 +1,6 @@
 <template>
-  <div class="clearfix page-component__scroll">
-    <el-backtop target=".page-component__scroll" :bottom="100">
-    <div
-      style="{
-        height: 100%;
-        width: 100%;
-        background-color: #f2f5f6;
-        box-shadow: 0 0 6px rgba(0,0,0, .12);
-        text-align: center;
-        line-height: 40px;
-        color: #1989fa;
-      }"
-    >
-      UP
-    </div>
-  </el-backtop>
+  <div class="clearfix">
+      
     <el-container class="test">
       <el-header class="header-wraper">
         <div id="header" class="clearfix">
@@ -59,8 +45,11 @@
           </keep-alive>
           <router-view v-if="!$route.meta.keepAlive"></router-view>
         </div>
+        <el-backtop :bottom="100">
+          
+        </el-backtop>
       </el-main>
-      <el-footer class="bg-gray" height="230px">
+      <el-footer class="bg-gray" height="180px">
       	<div class="footer common-width">
       		<div class="footer-links clearfix">
       			<ul>
@@ -86,11 +75,11 @@
 	      		<p>违法和不良信息举报邮箱：tousu@365qulicai.com      粤ICP备17024414号-1</p>
 	      		<p></p>
       		</div>
-          <div class="footer-imgs flex">
+          <!-- <div class="footer-imgs flex">
             <div v-for="(item,index) in footerImgs" :key="index">
               <a href="javascript:;"><img :src="item" alt=""></a>
             </div>            
-          </div>	      		
+          </div>	 -->      		
       	</div>
       </el-footer>
     </el-container>
@@ -163,9 +152,9 @@ export default {
     goPath(pathName,indexNum,aboutName){
       this.activeIndex = indexNum;
     	if(pathName == 'about'){
-        this.$router.push({name:'about',params:{activeName:aboutName}})
+        this.$router.push({path:'about',query:{activeName:aboutName}})
       }else{
-        this.$router.push({name:pathName})
+        this.$router.push({path:pathName})
       }
 			
     },

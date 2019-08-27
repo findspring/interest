@@ -19,7 +19,7 @@
               <div class="grid-content bg-white bank-list">
                 <div class="title">
                   <span>热门发卡银行</span>
-                  <a href="javascript:;">•••</a>
+                  <a href="javascript:;"  @click="goPath('creditCard')">•••</a>
                 </div>
                 <ul>
                   <li v-for="(item,index) in bankList" :key="index">
@@ -154,7 +154,7 @@ export default {
     goPath(pathName,id){
       let paramId = {id: id};
       if(pathName == 'creditCard'){
-        paramId = {cardId:id};
+        paramId = {bankId:id};
       }
       const {href} = this.$router.resolve({
         path: pathName,

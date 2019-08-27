@@ -5,6 +5,7 @@ import {
 	Message
 } from 'element-ui';
 
+axios.defaults.baseURL = process.env.API_ROOT;
 axios.interceptors.request.use(config => {
 	const _this = new Vue();
 	return config
