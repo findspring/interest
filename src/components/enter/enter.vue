@@ -98,7 +98,7 @@ export default {
         require('../../assets/imgs/vs.png'),
         require('../../assets/imgs/xy.png'),
       ],
-      logoUrl: require('../../assets/imgs/logo.png'),
+      logoUrl: require('../../assets/imgs/logo1.png'),
       // activeIndex: 'index',
       LocationCity: '定位中',
     };
@@ -211,7 +211,8 @@ export default {
   font-size: 14px;
 }
 .logo img {
-  padding: 10px 0 16px 0;
+  padding: 8px 0 0px 0;
+  /*padding: 10px 0 16px 0;*/
 }
 
 .position p {
