@@ -24,7 +24,7 @@
               </ul>
             </div>
             <!-- nav -->
-            <el-menu :default-active="activeIndex" class="el-menu-demo nav" mode="horizontal" @select="handleSelect">
+            <el-menu :default-active="activeIndexTest" class="el-menu-demo nav" mode="horizontal" @select="handleSelect">
               <el-menu-item index="index" @click="goPath('index','index')">首页</el-menu-item>
               <el-menu-item index="creditCard" @click="goPath('creditCard','creditCard')">信用卡</el-menu-item>
               <el-menu-item index="loan" @click="goPath('loan','loan')">贷款</el-menu-item>
@@ -99,14 +99,28 @@ export default {
         require('../../assets/imgs/xy.png'),
       ],
       logoUrl: require('../../assets/imgs/logo.png'),
-      activeIndex: 'index',
+      // activeIndex: 'index',
       LocationCity: '定位中',
     };
   },
+  // watch:{
+  //   $route:{
+  //     handler(val){
+  //       this.activeIndex = window.location.pathname.substr(1);
+  //       if(this.activeIndex == ""){
+  //         this.activeIndex = 'index';
+  //       }
+  //     },
+  //     immediate:true
+  //   }
+  // },
   computed:{
     hasLogin(){
       return this.$store.getters.isLogin;
-    }
+    },
+    activeIndexTest(){
+      return this.$route.path.substr(1);
+  　 }
   },
   methods: {
     loginOut(){
@@ -150,7 +164,7 @@ export default {
       // }, { provider: 'baidu' });
     },
     goPath(pathName,indexNum,aboutName){
-      this.activeIndex = indexNum;
+      // this.activeIndex = indexNum;
     	if(pathName == 'about'){
         this.$router.push({path:'about',query:{activeName:aboutName}})
       }else{
@@ -165,10 +179,10 @@ export default {
   },
   mounted() {
   	//获取地址栏中的路由，设置elementui中的导航栏选中状态
-    this.activeIndex = window.location.pathname.substr(1);
-    if(this.activeIndex == ""){
-      this.activeIndex = 'index';
-    }
+    // this.activeIndex = window.location.pathname.substr(1);
+    // if(this.activeIndex == ""){
+    //   this.activeIndex = 'index';
+    // }
     this.getLocation();
   }
 };
