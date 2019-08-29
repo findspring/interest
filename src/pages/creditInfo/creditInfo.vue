@@ -5,7 +5,7 @@
 			<div class="credit-info fl">
 				<!-- top -->
 				<div class="credit-info-top flex">
-					<img :src="'http://www.fanrenli.com' + card_info.card_img" alt="">
+					<img :src="'http://www.365qutui.com' + card_info.card_img" alt="">
 					<div class="credit-msg">
 						<h4 class="line-ellipsis01">{{card_info.card_name}}</h4>
 						<p class="line-ellipsis01"><span>小编点评</span>{{card_info.recommed_mark}}</p>

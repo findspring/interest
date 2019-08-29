@@ -5,7 +5,7 @@
       <el-carousel height="350px">
         <el-carousel-item v-for="(item,index) in indexArr" :key="index">
           <a href="javascript:;"  @click="goLink(item.url)">
-            <img :src="'http://www.fanrenli.com'+item.img_path">
+            <img :src="'http://www.365qutui.com'+item.img_path">
           </a>
         </el-carousel-item>
       </el-carousel>
@@ -24,7 +24,7 @@
                 <ul>
                   <li v-for="(item,index) in bankList" :key="index">
                     <div class="bank-item cursor clearfix" @click="goPath('creditCard',item.bank_id)">
-                      <img :src="'http://www.fanrenli.com'+item.bank_logo_small" alt="" class="fl">
+                      <img :src="'http://www.365qutui.com'+item.bank_logo_small" alt="" class="fl">
                       <p class="fl">{{item.bank_name}}</p>
                       <b class="fr">{{item.creditcard_nums}}
                       <span>款信用卡</span></b>
@@ -42,7 +42,7 @@
                   <el-row :gutter="20">
                     <el-col :span="8" v-for="(val,index) in creditList" :key="index" style="margin-bottom:15px;">
                       <div class="cursor hot-card-item" @click="goPath('creditInfo',val.id)">
-                        <img :src="'http://www.fanrenli.com'+val.card_img" alt="">
+                        <img :src="'http://www.365qutui.com'+val.card_img" alt="">
                         <p class="line-ellipsis01">{{val.card_name}}</p>
                       </div>
                     </el-col>

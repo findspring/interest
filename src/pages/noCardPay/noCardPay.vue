@@ -4,7 +4,7 @@
       <el-carousel height="350px">
         <el-carousel-item v-for="(item,index) in indexArr" :key="index">
           <a href="javascript:;"  @click="goLink(item.url)">
-          	<img :src="'http://www.fanrenli.com'+item.img_path">
+          	<img :src="'http://www.365qutui.com'+item.img_path">
           </a>
         </el-carousel-item>
       </el-carousel>
@@ -16,7 +16,7 @@
 	    	<ul class="list-info">
 	    		<li class="list-item" v-for="(item,index) in articleList" :key="index" @click="goPath('newsInfo',item.id)">
 	    			<a href="javascript:;">
-	    				<img :src="'http://www.fanrenli.com' + item.thumbnail" alt="">
+	    				<img :src="'http://www.365qutui.com' + item.thumbnail" alt="">
 		    			<p class="p1">{{item.post_title}}</p>
 		    			<p class="p2 line-ellipsis02">{{item.post_excerpt}}</p>
 	    			</a>						    			

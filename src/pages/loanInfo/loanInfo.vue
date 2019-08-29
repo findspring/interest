@@ -4,7 +4,7 @@
 			<div class="loan-main clearfix">
         <div class="loan-left fl">
           <div class="loan-info">
-            <h3>{{loan_info.loan_company}}-{{loan_info.loan_name}} <img class="fr" :src="'http://www.fanrenli.com'+loan_info.loan_company_logo" alt=""></h3>
+            <h3>{{loan_info.loan_company}}-{{loan_info.loan_name}} <img class="fr" :src="'http://www.365qutui.com'+loan_info.loan_company_logo" alt=""></h3>
             <div class="loan-msg clearfix">
               <ul>
                 <li>
