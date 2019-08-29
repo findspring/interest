@@ -4,7 +4,7 @@
 
 const path = require('path')
 
-const _serverUrl = "http://www.365qutui.com:8080/";
+const _serverUrl = "http://www.365qutui.cn/";
 module.exports = {
   dev: {
 

@@ -72,7 +72,7 @@
       		</div>
       		<div class="footer-msg">
       			<p>深圳市赫比亚网络科技有限公司 保留所有权利 版权所有 | 营业执照</p>
-	      		<p>违法和不良信息举报邮箱：tousu@365qulicai.com      粤ICP备17024414号-2</p>
+	      		<p>违法和不良信息举报邮箱：tousu@365qutui.com      粤ICP备17024414号-2</p>
 	      		<p></p>
       		</div>
           <!-- <div class="footer-imgs flex">
