@@ -49,16 +49,16 @@
 		    				</div>
 		    				<ul>
 		    					<li>
-		    						<p><span>系列等级：</span>金卡</p>
+		    						<p><span>系列等级：</span>{{item.level_name}}</p>
 		    					</li>
 		    					<li>
-		    						<p><span>系列币种：</span>人民币</p>
+		    						<p><span>系列币种：</span>{{item.currency_name}}</p>
 		    					</li>
 		    					<li>
-		    						<p><span>取现费用：</span>10元</p>
+		    						<p><span>发卡组织：</span>{{item.org_name}}</p>
 		    					</li>
 		    					<li>
-		    						<p><span>年费政策：</span><div class="line-ellipsis01 card-dscription">{{item.card_annualfee_mark}}</div></p>
+		    						<p><span>年费政策：</span><div class="line-ellipsis01 card-dscription">{{item.annualfee_name}}</div></p>
 		    					</li>
 		    				</ul>
 		    				<div class="result-btn">
