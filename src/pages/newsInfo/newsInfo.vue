@@ -4,7 +4,7 @@
 			<div class="news-main clearfix">
 				<div class="newsinfo-left fl">
 					<h4>{{post_title}}</h4>
-					<div class="newsinfo-msg"><time>时间：{{create_time}} </time><small>作者：{{user_nickname}}</small></div>
+					<div class="newsinfo-msg"><time>时间：{{create_time}} </time><small>作者：{{authName}}</small></div>
 					<div class="newsinfo-content">
 						<p v-html="post_content"></p>
 					</div>
@@ -27,7 +27,7 @@ export default {
 			create_time:'',
 			post_content:'',
 			post_title:'',
-			user_nickName:'',
+			authName:'',
     };
   },
   watch: {
@@ -54,7 +54,7 @@ export default {
 				this.create_time = detail.create_time;
 				this.post_content = detail.post_content;
 				this.post_title = detail.post_title;
-				this.user_nickname = detail.user_nickname;
+				this.authName = detail.user_nickname;
       }).catch((err) => {
       });
     },

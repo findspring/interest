@@ -24,12 +24,13 @@
               </ul>
             </div>
             <!-- nav -->
-            <el-menu :default-active="activeIndexTest" class="el-menu-demo nav" mode="horizontal" @select="handleSelect">
+            <el-menu :default-active="activeIndexTest" class="el-menu-demo nav nav-bar" mode="horizontal" @select="handleSelect">
               <el-menu-item index="index" @click="goPath('index','index')">首页</el-menu-item>
               <el-menu-item index="creditCard" @click="goPath('creditCard','creditCard')">信用卡</el-menu-item>
               <el-menu-item index="loan" @click="goPath('loan','loan')">贷款</el-menu-item>
               <el-menu-item index="pos" @click="goPath('pos','pos')">POS机推广</el-menu-item>
               <el-menu-item index="noCardPay" @click="goPath('noCardPay','noCardPay')">无卡支付APP推广</el-menu-item>
+              <el-menu-item index="newsInfo" @click="goPath('newsInfo','newsInfo')" v-if="this.$route.path.substr(1) == 'newsInfo'">资讯</el-menu-item>
               <!-- <el-menu-item index="6">订单管理</el-menu-item> -->
             </el-menu>
           </div>
@@ -120,11 +121,13 @@ export default {
     },
     activeIndexTest(){
       let routeName = this.$route.path.substr(1);
-      if(routeName == 'index' || routeName == 'creditCard' || routeName == 'loan'|| routeName == 'pos' || routeName == 'noCardPay'){
+      if(routeName == 'index' || routeName == 'creditCard' || routeName == 'loan'|| routeName == 'pos' || routeName == 'noCardPay' || routeName == 'newsInfo'){
         sessionStorage.setItem('activeNow',routeName);
         return routeName;
-      }else if(routeName == 'login' || routeName == 'about' || routeName == 'person'){
+      }else if(routeName == 'login' || routeName == 'about' || routeName == 'person'|| routeName == 'register'|| routeName == 'forgetPwd'){
         return routeName
+      }else if(routeName == 'creditInfo'){
+        return 'creditCard'
       }else{
         let activeNow = sessionStorage.getItem('activeNow');
         return activeNow
