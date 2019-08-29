@@ -66,7 +66,7 @@ export default {
   		// params.id = '5d4d96382e3f40917e927201';
       this.$http({
         method: "post",
-        url: "/portal/cardlesspay/index",
+        url: "/portal/nocardpay/index",
         // data: this.$qs.stringify(params)
       }).then((res) => {
       	let result = res.data.data;
