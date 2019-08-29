@@ -42,7 +42,7 @@
 		    			<div class="card-total" v-if="totalNum>0"><p>共找到<b>{{totalNum}}</b>款信用卡</p></div>
 		    			<div v-else class="no-card">温馨提示:在现在的筛选条件下，没有找到符合您要求的信用卡</div>
 		    			<div class="result-item clearfix" v-for="(item,index) in resultArr" :key="index">
-		    				<img :src="'http://www.365qutui.com' + item.card_img" alt="">
+		    				<img :src="'http://www.365qutui.cn' + item.card_img" alt="">
 		    				<div class="card-msg">
 		    					<p>{{item.card_name}}</p>
 		    					<p class="color-yellow">{{item.recommed_mark}}</p>
@@ -87,7 +87,7 @@
 				      <el-carousel height="350px">
 				        <el-carousel-item v-for="(item,index) in indexArr" :key="index">
 				        	<a href="javascript:;"  @click="goLink(item.url)">
-				          	<img :src="'http://www.365qutui.com'+item.img_path">
+				          	<img :src="'http://www.365qutui.cn'+item.img_path">
 				          </a>
 				        </el-carousel-item>
 				      </el-carousel>
@@ -100,7 +100,7 @@
 					    	<ul class="list-info">
 					    		<li class="list-item" v-for="(item,index) in articleList" :key="index" @click="goPath('newsInfo',item.id)">
 					    			<a href="javascript:;">
-					    				<img :src="'http://www.365qutui.com' + item.thumbnail" alt="">
+					    				<img :src="'http://www.365qutui.cn' + item.thumbnail" alt="">
 						    			<p class="p1">{{item.post_title}}</p>
 						    			<p class="p2 line-ellipsis02">{{item.post_excerpt}}</p>
 					    			</a>						    			

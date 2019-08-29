@@ -5,7 +5,7 @@
 	      <el-carousel height="350px">
 	        <el-carousel-item v-for="(item,index) in indexArr" :key="index">
 	          <a href="javascript:;"  @click="goLink(item.url)">
-	          	<img :src="'http://www.365qutui.com'+item.img_path">
+	          	<img :src="'http://www.365qutui.cn'+item.img_path">
 	          </a>
 	        </el-carousel-item>
 	      </el-carousel>
@@ -17,7 +17,7 @@
 	    			<h4>热门贷款</h4>
 	    			<ul>
 	    				<li class="flex" v-for="(item,index) in loanList" :key="index">
-	    					<img :src="'http://www.365qutui.com' + item.loan_company_logo" alt="">
+	    					<img :src="'http://www.365qutui.cn' + item.loan_company_logo" alt="">
 								<p>{{item.loan_name}}</p>
 								<span>{{item.lending_time}}</span>
 								<a href="javascript:;" class="loan-btn" @click="goPath('loanInfo',item.id)">查看</a>
