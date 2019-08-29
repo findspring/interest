@@ -1,7 +1,7 @@
 <template>
   <div class="clearfix">
       
-    <el-container class="test">
+    <el-container class="routeName">
       <el-header class="header-wraper">
         <div id="header" class="clearfix">
           <!-- logo -->
@@ -119,7 +119,17 @@ export default {
       return this.$store.getters.isLogin;
     },
     activeIndexTest(){
-      return this.$route.path.substr(1);
+      let routeName = this.$route.path.substr(1);
+      if(routeName == 'index' || routeName == 'creditCard' || routeName == 'loan'|| routeName == 'pos' || routeName == 'noCardPay'){
+        sessionStorage.setItem('activeNow',routeName);
+        return routeName;
+      }else if(routeName == 'login' || routeName == 'about' || routeName == 'person'){
+        return routeName
+      }else{
+        let activeNow = sessionStorage.getItem('activeNow');
+        return activeNow
+      }
+      
   　 }
   },
   methods: {
