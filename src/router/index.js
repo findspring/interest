@@ -27,9 +27,9 @@ export default new Router({
 		name: 'index',
 		meta: {
 			requireAuth: true,
-			title: '365趣理财',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'index',
-			belongToGroup: '365趣理财',
+			belongToGroup: '365趣推',
 			keepAlive: false,
 		},
 		component: index
@@ -37,7 +37,7 @@ export default new Router({
 		path: "/register",
 		name: 'register',
 		meta: {
-			title: '注册',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'register',
 			keepAlive: true,
 		},
@@ -46,7 +46,7 @@ export default new Router({
 		path: "/login",
 		name: 'login',
 		meta: {
-			title: '登录',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'login',
 			keepAlive: false,
 		},
@@ -55,7 +55,7 @@ export default new Router({
 		path: "/about",
 		name: 'about',
 		meta: {
-			title: '关于',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'about',
 			keepAlive: true,
 		},
@@ -64,7 +64,7 @@ export default new Router({
 		path: "/noCardPay",
 		name: 'noCardPay',
 		meta: {
-			title: '无卡支付',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'noCardPay',
 			keepAlive: true,
 		},
@@ -73,7 +73,7 @@ export default new Router({
 		path: "/pos",
 		name: 'pos',
 		meta: {
-			title: 'POS机',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'pos',
 			keepAlive: true,
 		},
@@ -82,7 +82,7 @@ export default new Router({
 		path: "/loan",
 		name: 'loan',
 		meta: {
-			title: '贷款',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'loan',
 			keepAlive: true,
 		},
@@ -91,7 +91,7 @@ export default new Router({
 		path: "/creditCard",
 		name: 'creditCard',
 		meta: {
-			title: '信用卡',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'creditCard',
 			keepAlive: true,
 		},
@@ -100,7 +100,7 @@ export default new Router({
 		path: "/personal",
 		name: 'personal',
 		meta: {
-			title: '个人中心',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'personal',
 			keepAlive: true,
 		},
@@ -109,7 +109,7 @@ export default new Router({
 		path: "/creditInfo",
 		name: 'creditInfo',
 		meta: {
-			title: '信用卡详情',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'creditInfo',
 			keepAlive: true,
 		},
@@ -118,7 +118,7 @@ export default new Router({
 		path: "/newsInfo",
 		name: 'newsInfo',
 		meta: {
-			title: '资讯详情',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'newsInfo',
 			keepAlive: true,
 		},
@@ -127,7 +127,7 @@ export default new Router({
 		path: "/loanInfo",
 		name: 'loanInfo',
 		meta: {
-			title: '贷款详情',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'loanInfo',
 			keepAlive: true,
 		},
@@ -136,7 +136,7 @@ export default new Router({
 		path: "/forgetPwd",
 		name: 'forgetPwd',
 		meta: {
-			title: '忘记密码',
+			title: '365趣推，专注推广，因为专注所以专业',
 			flag: 'forgetPwd',
 			keepAlive: true,
 		},
