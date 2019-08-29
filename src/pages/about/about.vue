@@ -12,12 +12,12 @@
 		    	</div>
 		    </el-tab-pane>
 		    <el-tab-pane label="联系我们" name="contact">
-					<div class="contact-us about-item">
-						<h3>联系我们</h3>
+				<div class="contact-us about-item">
+					<h3>联系我们</h3>
 		    		<div class="intro-main">
-		    			<p v-html="contactInfo"></p>
+		    		<p v-html="contactInfo"></p>
 		    		</div>
-					</div>
+				</div>
 		    </el-tab-pane>
 		    <el-tab-pane label="公司动态" name="trends">
 		    	<div class="company-trends about-item">
@@ -31,6 +31,25 @@
 		    		</div>
 		    	</div>
 		    </el-tab-pane>
+
+			<el-tab-pane label="免责声明" name="disclaimer">
+				<div class="contact-us about-item">
+					<h3>免责声明</h3>
+		    		<div class="intro-main">
+		    		<p v-html="disclaimerInfo"></p>
+		    		</div>
+				</div>
+		    </el-tab-pane>
+
+			<el-tab-pane label="市场合作" name="cooperation">
+				<div class="contact-us about-item">
+					<h3>市场合作</h3>
+		    		<div class="intro-main">
+		    		<p v-html="cooperationInfo"></p>
+		    		</div>
+				</div>
+		    </el-tab-pane>
+
 		  </el-tabs>
 		</div>
 			
@@ -48,7 +67,8 @@ export default {
 			companyInfo:'',
 			contactInfo:'',
 			news:[],
-
+			disclaimerInfo:'',
+			cooperationInfo:'',
     };
   },
   watch: {
@@ -65,6 +85,8 @@ export default {
   	this.getAboutUs();
   	this.getNews();
   	this.getContact();
+	this.getdisclaimer();
+	this.getcooperation();
   },
   methods:{
 		changeTab(){			
@@ -99,6 +121,26 @@ export default {
       }).then((res) => {
       	let result = res.data.data;
       	this.contactInfo= result.contact.post_content;
+      }).catch((err) => {
+      });
+		},
+		getdisclaimer(){
+      this.$http({
+        method: "post",
+        url: "/portal/about/disclaimer",
+      }).then((res) => {
+      	let result = res.data.data;
+      	this.disclaimerInfo= result.disclaimer.post_content;
+      }).catch((err) => {
+      });
+		},
+		getcooperation(){
+      this.$http({
+        method: "post",
+        url: "/portal/about/cooperation",
+      }).then((res) => {
+      	let result = res.data.data;
+      	this.cooperationInfo= result.cooperation.post_content;
       }).catch((err) => {
       });
 		},

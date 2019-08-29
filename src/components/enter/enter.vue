@@ -63,10 +63,10 @@
       					<a href="javascript:;" @click="goPath('about','','trends')">公司动态</a>
       				</li>
               <li>
-                <a href="javascript:;" @click="goPath('about','','contact')">市场合作</a>
+                <a href="javascript:;" @click="goPath('about','','disclaimer')">免责声明</a>
               </li>
               <li>
-                <a href="javascript:;" @click="goPath('about','','trends')">免责声明</a>
+                <a href="javascript:;" @click="goPath('about','','cooperation')">市场合作</a>
               </li>
       			</ul>
       		</div>
