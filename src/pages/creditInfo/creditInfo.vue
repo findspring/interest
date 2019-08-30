@@ -23,7 +23,7 @@
 						<li><span>币种：</span>{{card_info.currency_name}}</li>
 					</ul>
 					<ul class="card-advantage">
-						<li class="line-ellipsis01" :title="card_info.annualfee_name+ `;`+card_info.annualfee_mark"><span>年费：</span>{{card_info.annualfee_name}} &nbsp; {{card_info.annualfee_mark}}</li>
+						<li class="line-ellipsis01" :title="card_info.annualfee_name+ `;`+card_info.annualfee_mark"><span>年费：</span>{{card_info.annualfee_name}}</li>
 						<li><span>组织：</span>{{card_info.org_name}}</li>
 					</ul>
 					<div class="apply-btn cursor apply-mini" @click="goApply(card_info.apply_url)">立即申请</div>
