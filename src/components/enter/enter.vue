@@ -99,7 +99,7 @@ export default {
         require('../../assets/imgs/vs.png'),
         require('../../assets/imgs/xy.png'),
       ],
-      logoUrl: require('../../assets/imgs/logo2.png'),
+      logoUrl: require('../../assets/imgs/logo1.png'),
       // activeIndex: 'index',
       LocationCity: '定位中',
     };
